@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DW & DM — ESA Study Guide</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f5f7fa;color:#1a202c;font-size:14px;line-height:1.6}
+header{background:linear-gradient(135deg,#2d3748,#4a5568);color:#fff;padding:1.2rem 1.5rem}
+header h1{font-size:1.3rem;font-weight:600}
+header p{font-size:0.82rem;opacity:0.75;margin-top:2px}
+nav{display:flex;flex-wrap:wrap;gap:5px;padding:0.75rem 1rem;background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100}
+.nb{padding:5px 11px;border:1px solid #cbd5e0;border-radius:6px;cursor:pointer;background:#f7fafc;color:#4a5568;font-size:12.5px;font-weight:500}
+.nb:hover{background:#edf2f7}
+.nb.on{background:#2d3748;color:#fff;border-color:#2d3748}
+main{padding:1rem;max-width:960px;margin:0 auto}
+.tc{display:none}.tc.on{display:block}
+.box{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:1rem 1.2rem;margin-bottom:0.9rem;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.box h3{font-size:14px;font-weight:600;color:#1a202c;margin-bottom:0.5rem;border-bottom:1px solid #f0f4f8;padding-bottom:0.3rem}
+.box p,.box li{color:#4a5568;font-size:13px;line-height:1.65;margin-bottom:0.3rem}
+.box ul{padding-left:1.3rem}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem}
+@media(max-width:600px){.g2{grid-template-columns:1fr}}
+.tip{background:#ebf8ff;border-left:3px solid #3182ce;padding:0.45rem 0.7rem;border-radius:0 6px 6px 0;margin:0.4rem 0;font-size:12.5px;color:#2b6cb0}
+.warn{background:#fffbeb;border-left:3px solid #d69e2e;padding:0.45rem 0.7rem;border-radius:0 6px 6px 0;margin:0.4rem 0;font-size:12.5px;color:#744210}
+.good{background:#f0fff4;border-left:3px solid #38a169;padding:0.45rem 0.7rem;border-radius:0 6px 6px 0;margin:0.4rem 0;font-size:12.5px;color:#22543d}
+pre{background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:0.6rem 0.8rem;font-family:monospace;font-size:12px;white-space:pre-wrap;margin:0.4rem 0;color:#2d3748;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:0.4rem 0}
+th{background:#f7fafc;font-weight:600;padding:5px 9px;border:1px solid #e2e8f0;font-size:12.5px;text-align:left;color:#2d3748}
+td{padding:5px 9px;border:1px solid #e2e8f0;font-size:12.5px;color:#4a5568}
+tr:nth-child(even) td{background:#fafcff}
+h2.st{font-size:1.1rem;font-weight:700;color:#2d3748;margin-bottom:0.9rem;padding-bottom:0.4rem;border-bottom:2px solid #e2e8f0}
+.sn{display:inline-flex;width:20px;height:20px;border-radius:50%;background:#3182ce;color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;margin-right:5px;flex-shrink:0}
+input[type=number]{padding:4px 6px;border:1px solid #cbd5e0;border-radius:5px;font-size:12.5px;width:70px;background:#fff;color:#1a202c}
+.btn{padding:6px 14px;background:#2d3748;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12.5px;font-weight:500}
+.btn:hover{background:#4a5568}
+.rb{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:0.75rem 1rem;margin-top:0.65rem;font-size:13px;color:#2d3748;line-height:1.8}
+.tag{display:inline-block;padding:2px 8px;border-radius:5px;font-size:12px;font-weight:600}
+.tp{background:#c6f6d5;color:#22543d}
+.tf{background:#fed7d7;color:#742a2a}
+.tb{background:#bee3f8;color:#2a4365}
+.hi{background:#ebf8ff}
+label{font-size:11.5px;color:#718096;display:block;margin-bottom:2px}
+.inline-flex{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin:0.5rem 0}
+.step{display:flex;align-items:flex-start;gap:8px;margin:0.35rem 0}
+.step p{margin:0;color:#4a5568;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<h1>Data Warehousing & Data Mining — ESA Study Guide</h1>
+<p>TIU-UCS-E418B · Tap a tab to jump to any topic · Interactive problem solvers included</p>
+</header>
+
+<nav>
+<button class="nb on" data-t="0">🏛️ Data Warehouse</button>
+<button class="nb" data-t="1">⚙️ Preprocessing</button>
+<button class="nb" data-t="2">📊 OLAP & KDD</button>
+<button class="nb" data-t="3">🔗 Association Rules</button>
+<button class="nb" data-t="4">🤖 Classification</button>
+<button class="nb" data-t="5">🔵 Clustering</button>
+<button class="nb" data-t="6">📈 Regression</button>
+<button class="nb" data-t="7">🧮 Problem Solver</button>
+</nav>
+
+<main>
+
+<!-- ─────────── TAB 0: DATA WAREHOUSE ─────────── -->
+<div id="t0" class="tc on">
+<h2 class="st">Data Warehousing</h2>
+
+<div class="box">
+<h3>What is a Data Warehouse?</h3>
+<p>A regular database is like a <em>cashier's register</em> — handles quick, live, day-to-day transactions. A data warehouse is like a giant <em>library archive</em> — it stores years of clean, organized historical data specifically for analysis and reporting.</p>
+<div class="tip">Key properties remembered by the acronym <strong>SITN</strong>: Subject-oriented · Integrated · Time-variant · Non-volatile</div>
+<ul>
+<li><strong>Subject-oriented:</strong> Organized around business topics (Sales, HR, Finance) — not around applications</li>
+<li><strong>Integrated:</strong> Data from many sources (CRM, ERP, web logs) is unified and cleaned into one consistent format</li>
+<li><strong>Time-variant:</strong> Keeps historical snapshots with timestamps — you can analyse 5-year trends, not just today's data</li>
+<li><strong>Non-volatile:</strong> Once data is loaded, it is never updated or deleted — it's read-only for analysis</li>
+</ul>
+</div>
+
+<div class="g2">
+<div class="box">
+<h3>Fact Table</h3>
+<p>The <em>central table</em> in any data warehouse schema. Stores measurable, quantitative business events — the "what happened" numbers you want to analyse.</p>
+<div class="tip">Example: A Sales Fact table stores quantity_sold, revenue, discount_amount for every single transaction.</div>
+<p>Contains: <strong>Measures</strong> (the numbers you analyse) + <strong>Foreign keys</strong> that link to dimension tables.</p>
+<p>Typically very large — millions to billions of rows.</p>
+</div>
+<div class="box">
+<h3>Dimension Table</h3>
+<p>Provides the <em>context</em> around the facts — answers "who, what, where, when." Think of dimensions as the labels and filters for your facts.</p>
+<div class="tip">Example: A Time dimension → day, month, quarter, year. A Product dimension → product_name, category, brand, price.</div>
+<p>These are what you "group by" or "filter by" in analysis queries. Dimensions describe the facts.</p>
+<p>Typically small — hundreds to thousands of rows.</p>
+</div>
+</div>
+
+<div class="box">
+<h3>Data Cube</h3>
+<p>A <em>multi-dimensional</em> view of data. Imagine a Rubik's cube where each axis is a dimension (Time, Product, Region) and each cell holds a measure value (Total Sales Amount). A data cube generalises this to any number of dimensions.</p>
+<pre>3D Data Cube: [Year × Product × Region]
+
+Each cell = Total Sales for that combination
+Cell (2024, Laptop, West Bengal) = ₹50 Lakh
+Cell (2023, Phone, Maharashtra) = ₹82 Lakh</pre>
+<p>You can slice, rotate, or summarize this cube in many ways — that is exactly what OLAP operations do.</p>
+</div>
+
+<div class="g2">
+<div class="box">
+<h3>Star Schema ⭐</h3>
+<p>The simplest, most popular schema. One central fact table connects <em>directly</em> to multiple dimension tables — looks like a star shape when drawn.</p>
+<ul>
+<li>Fast queries — fewer joins needed</li>
+<li>Some data redundancy in dimension tables</li>
+<li>Easier to understand and use</li>
+<li>Most common in real-world data warehouses</li>
+</ul>
+<div class="good">Fact_Sales → DimTime, DimProduct, DimStore (all direct connections)</div>
+</div>
+<div class="box">
+<h3>Snowflake Schema ❄️</h3>
+<p>An extension of the Star Schema where dimension tables are <em>normalized</em> into sub-dimension tables — creating a snowflake-like branching structure.</p>
+<ul>
+<li>Eliminates redundancy → saves storage</li>
+<li>More complex joins → slightly slower queries</li>
+<li>Harder to understand but more organized</li>
+<li>Better for write-heavy scenarios</li>
+</ul>
+<div class="tip">DimProduct → DimCategory → DimDepartment (chained, normalized tables)</div>
+</div>
+</div>
+
+<div class="box">
+<h3>ETL Process — Extract, Transform, Load</h3>
+<p>The pipeline that moves raw data from source systems into the data warehouse. Think: making juice — pick fruit (Extract) → wash, peel, blend (Transform) → pour into bottle (Load).</p>
+<div class="g2">
+<div>
+<div class="step"><span class="sn">E</span><p><strong>Extract</strong> — Pull raw data from source systems: relational databases, APIs, spreadsheets, flat files, logs. Data at this stage may be messy, inconsistent, or in different formats.</p></div>
+<div class="step"><span class="sn">T</span><p><strong>Transform</strong> — Clean, validate, and reshape the data: handle null values, remove duplicates, standardize date/currency formats, encode categorical variables, join tables, compute derived fields, apply business rules.</p></div>
+<div class="step"><span class="sn">L</span><p><strong>Load</strong> — Insert the clean, transformed data into the data warehouse. Usually done in scheduled batches (nightly or weekly), not in real-time.</p></div>
+</div>
+<div>
+<div class="warn">Common transformations: null handling, deduplication, date format standardization (DD/MM/YYYY → YYYY-MM-DD), currency conversion, unit standardization (kg vs lbs), encoding categoricals (Male/Female → 0/1).</div>
+<div class="tip">ETL runs on a schedule, so your warehouse may be 1 day behind live data. That's perfectly acceptable for analytics — you're not booking tickets, you're analysing trends.</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ─────────── TAB 1: PREPROCESSING ─────────── -->
+<div id="t1" class="tc">
+<h2 class="st">Data Preprocessing</h2>
+
+<div class="box">
+<h3>Why Preprocessing?</h3>
+<p>Real-world data is messy — it has missing values, outliers, inconsistencies, and features at vastly different scales. Preprocessing cleans and prepares data <em>before</em> any mining algorithm is applied.</p>
+<div class="tip">The golden rule of data science: Garbage In = Garbage Out. The best algorithm applied to bad data gives bad results. Preprocessing is what turns dirty data into clean, usable data.</div>
+</div>
+
+<div class="box">
+<h3>Smoothing Noisy Data</h3>
+<p>Noise = random errors, typos, or outliers in your data. There are three main smoothing techniques you need to know for your exam:</p>
+<p><strong>1. Binning</strong> — The most exam-important technique. Sort data, divide into equal bins, then smooth each bin by replacing values with the bin's mean, median, or boundary values.</p>
+<pre>Raw sorted data:  4, 8, 15, 21, 24, 25
+Divide into bins of size 3:
+  Bin 1 = [4, 8, 15]
+  Bin 2 = [21, 24, 25]
+
+Smooth by Mean (replace each value with bin mean):
+  Bin 1 mean = (4+8+15)/3 = 9   → [9, 9, 9]
+  Bin 2 mean = (21+24+25)/3 = 23.3 → [23.3, 23.3, 23.3]
+
+Smooth by Boundary (replace each value with nearest boundary):
+  Bin 1 boundaries = 4 and 15
+  4 → 4 (already the boundary)
+  8 → 4 (closer to 4 than to 15, distance 4 vs 7)
+  15 → 15 (the boundary itself)</pre>
+<p><strong>2. Regression</strong> — Fit a regression curve through the data. Values are replaced by their prediction on the curve, smoothing out random fluctuations.</p>
+<p><strong>3. Clustering / Outlier removal</strong> — Group data into clusters. Points that fall far from any cluster are identified as outliers and removed or treated separately.</p>
+<div class="warn">For exams: Binning is the most commonly asked technique. Know the steps cold: Sort → Partition into bins → Smooth by mean/median/boundary.</div>
+</div>
+
+<div class="box">
+<h3>Data Integration</h3>
+<p>Combining data from multiple, heterogeneous sources into one unified, consistent store. This is harder than it sounds because different sources use different naming conventions, formats, and scales.</p>
+<div class="g2">
+<div>
+<ul>
+<li><strong>Schema conflicts:</strong> Source A calls it "customer_age", Source B calls it "age_years" — same concept, different names</li>
+<li><strong>Value conflicts:</strong> Source A uses kg, Source B uses lbs for weight — same concept, different units</li>
+<li><strong>Redundancy:</strong> "annual_income" in one source and "yearly_earnings" in another — detect using correlation</li>
+</ul>
+</div>
+<div>
+<ul>
+<li><strong>Entity resolution:</strong> Is "J. Smith, 12 Park St" the same person as "John Smith, 12 Park Street"? Resolving this is critical.</li>
+</ul>
+<div class="tip">Integration builds a consistent, unified view — a prerequisite before any meaningful data mining can happen.</div>
+</div>
+</div>
+</div>
+
+<div class="box">
+<h3>Discretization</h3>
+<p>Converting <em>continuous</em> (numeric) values into <em>discrete categories</em> (intervals/bins). Makes data compatible with algorithms that prefer or require categorical input (like Naive Bayes or Decision Trees).</p>
+<pre>Age (continuous): 17, 22, 35, 48, 62, 71
+
+Discretized into categories:
+  Young  = 0–30  → 17, 22
+  Middle = 31–60 → 35, 48
+  Old    = 61+   → 62, 71
+
+Output (categorical): Young, Young, Middle, Middle, Old, Old</pre>
+<div class="tip">Real-life example: instead of storing exact exam marks (78.5, 91.2...), you assign a letter grade (B, A+...). That's discretization.</div>
+</div>
+
+<div class="box">
+<h3>Normalization — Why it matters & How to do it</h3>
+<p>When features have very different scales (CGPA: 5–10 vs Assessment marks: 30–100), algorithms like KNN and SVM get <em>biased</em> toward the larger-scale feature, because distances are dominated by it. Normalization brings all features to the same scale.</p>
+<div class="g2">
+<div>
+<p><strong>Min-Max Normalization</strong> → maps everything to [0, 1]</p>
+<pre>x' = (x - x_min) / (x_max - x_min)
+
+Example: Height = 170 cm, min=150, max=190
+x' = (170-150) / (190-150)
+   = 20 / 40
+   = 0.5  (exactly in the middle)</pre>
+<div class="warn">Sensitive to outliers. One extreme value compresses everything else into a tiny range.</div>
+</div>
+<div>
+<p><strong>Z-Score Normalization (Standardization)</strong> → mean=0, std deviation=1</p>
+<pre>x' = (x - μ) / σ
+μ = mean of the dataset
+σ = standard deviation
+
+Example: x=80, μ=70, σ=10
+z = (80-70)/10 = +1.0
+(1 std dev above the average)</pre>
+<div class="good">More robust to outliers. Preferred when data follows a normal distribution. Values can be negative or above 1.</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ─────────── TAB 2: OLAP & KDD ─────────── -->
+<div id="t2" class="tc">
+<h2 class="st">OLAP Operations & KDD</h2>
+
+<div class="box">
+<h3>OLAP vs OLTP — the core difference</h3>
+<table>
+<tr><th>Feature</th><th>OLAP (Analytical)</th><th>OLTP (Transactional)</th></tr>
+<tr><td>Full form</td><td>Online Analytical Processing</td><td>Online Transaction Processing</td></tr>
+<tr><td>Purpose</td><td>Analysis, reporting, business intelligence</td><td>Day-to-day business operations</td></tr>
+<tr><td>Data type</td><td>Historical, aggregated, large volumes</td><td>Current, detailed, small transactions</td></tr>
+<tr><td>Queries</td><td>Complex, read-heavy, ad hoc</td><td>Simple, frequent reads + writes</td></tr>
+<tr><td>Users</td><td>Analysts, managers, executives</td><td>Clerks, cashiers, web applications</td></tr>
+<tr><td>Schema</td><td>Star/Snowflake (denormalized)</td><td>3rd Normal Form (normalized)</td></tr>
+<tr><td>Example query</td><td>"Total sales by region for Q3 2024"</td><td>"Process this customer payment"</td></tr>
+<tr><td>Response time</td><td>Seconds to minutes</td><td>Milliseconds</td></tr>
+</table>
+</div>
+
+<div class="box">
+<h3>OLAP Operations — Imagine a Sales Cube [Year × Product × City]</h3>
+<div class="g2">
+<div>
+<p><strong>Roll-Up (Drill-Up)</strong> — Summarize by moving UP the hierarchy. Reduces detail, increases aggregation.</p>
+<div class="tip">Day → Month → Quarter → Year. You're "zooming out" to see the big picture.</div>
+<p><strong>Drill-Down</strong> — The reverse of Roll-Up. Navigate from summary to more granular detail.</p>
+<div class="tip">Year → Quarter → Month → Day. You're "zooming in" to investigate why something happened.</div>
+<p><strong>Slice</strong> — Fix ONE dimension to a specific single value. Produces a 2D flat cut of the cube.</p>
+<pre>Slice: Year = 2024
+→ 2D table: Product × City, for 2024 only
+(the "2023" and other year layers are removed)</pre>
+</div>
+<div>
+<p><strong>Dice</strong> — Fix MULTIPLE dimensions to ranges of values. Produces a smaller 3D sub-cube.</p>
+<pre>Dice: Year ∈ {2023, 2024}
+      City ∈ {Delhi, Mumbai, Kolkata}
+→ A smaller sub-cube with only those values</pre>
+<p><strong>Pivot (Rotate)</strong> — Rotate the axes to get a different perspective. Like transposing a matrix.</p>
+<div class="tip">Switch from "Products as rows, Cities as columns" → "Cities as rows, Products as columns." Same data, different view.</div>
+<div class="warn">Memory trick: Slice = 1 fixed dimension | Dice = multiple fixed dimensions | Roll-up = aggregate upward | Drill-down = disaggregate downward</div>
+</div>
+</div>
+</div>
+
+<div class="box">
+<h3>Data Mining</h3>
+<p>The process of automatically <em>discovering patterns, rules, and insights</em> from large datasets using statistical and machine learning algorithms. It's the core analytical engine inside the KDD process.</p>
+<div class="g2">
+<div>
+<p><strong>Classification:</strong> Predict which predefined category a new item belongs to. (KNN, Naive Bayes, SVM, Decision Tree)</p>
+<p><strong>Clustering:</strong> Group similar items together without any predefined labels. (K-Means, DBSCAN)</p>
+</div>
+<div>
+<p><strong>Association:</strong> Find items that frequently co-occur — "if A then often B." (Apriori, FP-Growth)</p>
+<p><strong>Regression:</strong> Predict a continuous numeric value. (Linear Regression, Logistic Regression)</p>
+</div>
+</div>
+</div>
+
+<div class="box">
+<h3>KDD Process — Knowledge Discovery in Databases</h3>
+<p>KDD is the <em>complete end-to-end pipeline</em> for extracting useful knowledge from data. Data Mining is just one crucial step inside it — not the whole thing!</p>
+<div style="display:flex;gap:5px;flex-wrap:wrap;margin:0.7rem 0">
+<div style="flex:1;min-width:90px;padding:8px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:8px;text-align:center;font-size:12px"><strong>1. Selection</strong><br><span style="color:#718096">Choose relevant data from DBs</span></div>
+<div style="align-self:center;color:#a0aec0;font-size:18px">→</div>
+<div style="flex:1;min-width:90px;padding:8px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:8px;text-align:center;font-size:12px"><strong>2. Preprocessing</strong><br><span style="color:#718096">Clean noise & nulls</span></div>
+<div style="align-self:center;color:#a0aec0;font-size:18px">→</div>
+<div style="flex:1;min-width:90px;padding:8px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:8px;text-align:center;font-size:12px"><strong>3. Transformation</strong><br><span style="color:#718096">Normalize, discretize</span></div>
+<div style="align-self:center;color:#a0aec0;font-size:18px">→</div>
+<div style="flex:1;min-width:90px;padding:8px;background:#ebf8ff;border:1px solid #bee3f8;border-radius:8px;text-align:center;font-size:12px;color:#2b6cb0"><strong>4. Data Mining</strong><br><span>Apply algorithms</span></div>
+<div style="align-self:center;color:#a0aec0;font-size:18px">→</div>
+<div style="flex:1;min-width:90px;padding:8px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:8px;text-align:center;font-size:12px"><strong>5. Interpretation</strong><br><span style="color:#718096">Evaluate patterns</span></div>
+<div style="align-self:center;color:#a0aec0;font-size:18px">→</div>
+<div style="flex:1;min-width:90px;padding:8px;background:#f0fff4;border:1px solid #c6f6d5;border-radius:8px;text-align:center;font-size:12px;color:#22543d"><strong>6. Knowledge</strong><br><span>Actionable insights</span></div>
+</div>
+<div class="good">KDD ≠ Data Mining. KDD is the whole journey (all 6 steps). Data Mining is step 4 — the pattern-discovery engine. If an exam asks you to distinguish them, this is the answer.</div>
+</div>
+</div>
+
+<!-- ─────────── TAB 3: ASSOCIATION RULES ─────────── -->
+<div id="t3" class="tc">
+<h2 class="st">Association Rules & Apriori Algorithm</h2>
+
+<div class="box">
+<h3>Market Basket Analysis — the core idea</h3>
+<p>A supermarket analyses thousands of receipts to find patterns like "customers who buy bread also tend to buy butter." These patterns are expressed as <em>association rules</em> and can drive product placement, promotions, and recommendations.</p>
+<div class="tip">The most famous real-world finding: Walmart discovered that customers who buy diapers on Friday evenings also tend to buy beer. They placed the products near each other → sales increased for both. Association rules can reveal non-obvious, surprising patterns.</div>
+</div>
+
+<div class="g2">
+<div class="box">
+<h3>Support</h3>
+<p>Measures how <em>frequently</em> an itemset appears across all transactions. Filters out rare, statistically insignificant combinations.</p>
+<pre>Support({X, Y}) =
+  # transactions containing BOTH X and Y
+  ─────────────────────────────────────
+        Total number of transactions
+
+If {Bread, Juice} appears in 3 of 5 txns:
+Support = 3/5 = 60%</pre>
+<div class="tip">The min_support threshold ensures we only focus on combinations that appear often enough to be meaningful and actionable.</div>
+</div>
+<div class="box">
+<h3>Confidence</h3>
+<p>Given that X is purchased, how likely is Y also purchased? Measures the <em>reliability or strength</em> of the rule X → Y.</p>
+<pre>Confidence(X → Y) =
+  Support(X ∪ Y)      [itemset containing both]
+  ──────────────
+    Support(X)         [itemset containing X]
+
+If Bread appears in 4 txns and {Bread,Juice} in 3:
+Confidence(Bread→Juice) = 3/4 = 75%</pre>
+<div class="warn">High confidence means the rule is reliable, but it does NOT mean causation — it's correlation. People don't buy beer because of diapers; they're just correlated.</div>
+</div>
+</div>
+
+<div class="box">
+<h3>Frequent Itemset & Association Rule</h3>
+<div class="g2">
+<div>
+<p><strong>Frequent Itemset:</strong> An itemset whose support meets or exceeds min_support. Only these are considered for rule generation.</p>
+<pre>min_support = 50% (need count ≥ 3 of 5 txns)
+
+{Bread}: 4 txns → 80% → Frequent ✓
+{Milk}: 3 txns → 60% → Frequent ✓
+{Egg}: 1 txn → 20% → NOT frequent ✗
+{Bread, Juice}: 3 txns → 60% → Frequent ✓
+{Egg, Milk}: 1 txn → 20% → NOT frequent ✗</pre>
+</div>
+<div>
+<p><strong>Association Rule:</strong> An implication of the form X → Y, meaning "if a customer buys X, they also tend to buy Y." Generated from frequent itemsets with high enough confidence.</p>
+<div class="tip">Format: LHS (antecedent) → RHS (consequent) | support, confidence <br>Example: {Bread} → {Juice} | sup=60%, conf=75%</div>
+<div class="good">Only frequent itemsets generate rules. This is why we compute support first and then confidence.</div>
+</div>
+</div>
+</div>
+
+<div class="box">
+<h3>The Apriori Principle — Why it works efficiently</h3>
+<p>The key insight that makes Apriori tractable on large datasets: <strong>"If an itemset is infrequent, ALL of its supersets must also be infrequent."</strong></p>
+<pre>If {Egg} has support 20% (below min_support = 50%):
+  → {Egg, Bread} is DEFINITELY below 50% ✗
+  → {Egg, Milk, Bread} is DEFINITELY below 50% ✗
+  → {Egg, Milk, Bread, Juice} is DEFINITELY below 50% ✗
+
+We prune ALL supersets of {Egg} without even checking them!</pre>
+<div class="tip">This is called the anti-monotone property. Instead of checking all 2^n possible itemsets (exponential), Apriori prunes the search space dramatically — it's why the algorithm is practical on real data.</div>
+</div>
+
+<div class="box">
+<h3>Apriori — Complete Exam Walkthrough</h3>
+<p>5 transactions | min_support = 50% (count ≥ 3) | min_confidence = 75%</p>
+<table>
+<tr><th>TID</th><th>Items purchased</th></tr>
+<tr><td>T1</td><td>Bread, Cheese, Egg, Juice</td></tr>
+<tr><td>T2</td><td>Bread, Cheese, Juice</td></tr>
+<tr><td>T3</td><td>Bread, Milk, Yogurt</td></tr>
+<tr><td>T4</td><td>Bread, Juice, Milk</td></tr>
+<tr><td>T5</td><td>Cheese, Juice, Milk</td></tr>
+</table>
+<p style="margin-top:0.6rem"><strong>Step 1 — Count all individual items → prune infrequent ones → get L1:</strong></p>
+<table>
+<tr><th>Item</th><th>In which transactions</th><th>Count</th><th>Support</th><th>Frequent?</th></tr>
+<tr><td>Bread</td><td>T1, T2, T3, T4</td><td>4</td><td>80%</td><td>✓ in L1</td></tr>
+<tr><td>Cheese</td><td>T1, T2, T5</td><td>3</td><td>60%</td><td>✓ in L1</td></tr>
+<tr><td>Egg</td><td>T1 only</td><td>1</td><td>20%</td><td>✗ pruned by Apriori principle</td></tr>
+<tr><td>Juice</td><td>T1, T2, T4, T5</td><td>4</td><td>80%</td><td>✓ in L1</td></tr>
+<tr><td>Milk</td><td>T3, T4, T5</td><td>3</td><td>60%</td><td>✓ in L1</td></tr>
+<tr><td>Yogurt</td><td>T3 only</td><td>1</td><td>20%</td><td>✗ pruned</td></tr>
+</table>
+<p style="margin-top:0.6rem"><strong>L1 = {Bread(4), Cheese(3), Juice(4), Milk(3)}</strong></p>
+<p style="margin-top:0.5rem"><strong>Step 2 — Generate candidate 2-itemsets from L1, count, prune → get L2:</strong></p>
+<table>
+<tr><th>2-Itemset</th><th>Appears in</th><th>Count</th><th>Frequent?</th></tr>
+<tr><td>{Bread, Cheese}</td><td>T1, T2</td><td>2</td><td>✗ (below 3)</td></tr>
+<tr style="background:#f0fff4"><td>{Bread, Juice}</td><td>T1, T2, T4</td><td>3</td><td>✓ in L2</td></tr>
+<tr><td>{Bread, Milk}</td><td>T3, T4</td><td>2</td><td>✗</td></tr>
+<tr style="background:#f0fff4"><td>{Cheese, Juice}</td><td>T1, T2, T5</td><td>3</td><td>✓ in L2</td></tr>
+<tr><td>{Cheese, Milk}</td><td>T5</td><td>1</td><td>✗</td></tr>
+<tr><td>{Juice, Milk}</td><td>T4, T5</td><td>2</td><td>✗</td></tr>
+</table>
+<p style="margin-top:0.6rem"><strong>L2 = {{Bread, Juice}(3), {Cheese, Juice}(3)}</strong></p>
+<p style="margin-top:0.5rem">For L3: only {Bread, Cheese, Juice} can be formed from L2, but its count = 2 (only T1, T2) → pruned. Algorithm terminates.</p>
+<p style="margin-top:0.5rem"><strong>Step 3 — Generate association rules with confidence ≥ 75%:</strong></p>
+<table>
+<tr><th>Rule</th><th>Confidence formula</th><th>Result</th><th>Valid?</th></tr>
+<tr><td>Bread → Juice</td><td>count{B,J} / count{B} = 3/4</td><td>75%</td><td>✓</td></tr>
+<tr><td>Juice → Bread</td><td>count{B,J} / count{J} = 3/4</td><td>75%</td><td>✓</td></tr>
+<tr><td>Cheese → Juice</td><td>count{C,J} / count{C} = 3/3</td><td>100%</td><td>✓</td></tr>
+<tr><td>Juice → Cheese</td><td>count{C,J} / count{J} = 3/4</td><td>75%</td><td>✓</td></tr>
+</table>
+<div class="good" style="margin-top:0.6rem">Final answer: 4 valid association rules. All rules come from the 2 frequent 2-itemsets in L2.</div>
+</div>
+</div>
+
+<!-- ─────────── TAB 4: CLASSIFICATION ─────────── -->
+<div id="t4" class="tc">
+<h2 class="st">Classification Algorithms</h2>
+
+<div class="box">
+<h3>Supervised vs Unsupervised vs Semi-supervised Learning</h3>
+<table>
+<tr><th></th><th>Supervised</th><th>Unsupervised</th><th>Semi-supervised</th></tr>
+<tr><td>Labels</td><td>All training data is labeled</td><td>No labels at all</td><td>A few labeled + mostly unlabeled</td></tr>
+<tr><td>Goal</td><td>Predict output class for new data</td><td>Discover hidden structure in data</td><td>Use few labels to guide pattern finding</td></tr>
+<tr><td>Algorithms</td><td>KNN, SVM, Decision Tree, Naive Bayes, Regression</td><td>K-Means, DBSCAN, Hierarchical Clustering</td><td>Self-training, label propagation</td></tr>
+<tr><td>Analogy</td><td>Studying with an answer key and getting graded</td><td>Exploring a new city with no map or guide</td><td>A few solved examples, rest self-explore</td></tr>
+</table>
+</div>
+
+<div class="box">
+<h3>Decision Tree & Gini Index</h3>
+<p>A Decision Tree is a flowchart-like structure where each internal node tests a feature, each branch is an outcome, and each leaf node is a class label. The tree learns which questions to ask in which order to classify data.</p>
+<div class="tip">Like 20 Questions: "CGPA &gt; 7.0? → Yes. Assessment &gt; 65? → Yes. → Predict: Pass." Each question splits the data, making each group purer.</div>
+<p><strong>Gini Index</strong> measures how "impure" or mixed a node is. The algorithm chooses splits that minimize Gini.</p>
+<pre>Gini = 1 - Σ(pᵢ²)   where pᵢ = proportion of each class
+
+Pure node (all Pass, no Fail):
+  Gini = 1 - (1.0² + 0.0²) = 0  ← perfect purity
+
+Completely mixed node (50-50 split):
+  Gini = 1 - (0.5² + 0.5²) = 1 - 0.5 = 0.5 ← worst case
+
+Node with 3 Pass, 2 Fail (p = 3/5 = 0.6 and 2/5 = 0.4):
+  Gini = 1 - (0.6² + 0.4²)
+       = 1 - (0.36 + 0.16)
+       = 1 - 0.52 = 0.48</pre>
+<div class="warn">When deciding which feature to split on, compute the weighted Gini for each candidate split. Choose the feature that gives the lowest weighted Gini (equivalently, highest Information Gain). This is how the tree "learns" which questions to ask first.</div>
+</div>
+
+<div class="box">
+<h3>KNN — K-Nearest Neighbors Algorithm</h3>
+<p>To classify a new data point, find the K most <em>similar</em> training points (by Euclidean distance) and take a majority vote of their class labels. Simple, intuitive, and surprisingly effective.</p>
+<div class="tip">Analogy: You move to a new city and want to know if your new neighborhood is good. You ask your K nearest neighbors about it and go with the majority opinion.</div>
+<div class="g2">
+<div>
+<pre>Euclidean distance (3 features):
+d = √[(x₁-x₂)² + (y₁-y₂)² + (z₁-z₂)²]
+
+Example: test=(7.6,60,8), training=(9.2,85,8)
+d = √[(9.2-7.6)² + (85-60)² + (8-8)²]
+  = √[2.56 + 625 + 0]
+  = √627.56 ≈ 25.05</pre>
+<p><strong>Steps:</strong></p>
+<ul>
+<li>Calculate distance from test point to every training point</li>
+<li>Sort distances in ascending order (nearest first)</li>
+<li>Select the top K nearest training points</li>
+<li>Count the majority class among those K neighbors</li>
+<li>Assign that majority class to the test point</li>
+</ul>
+</div>
+<div>
+<div class="tip">Small K (e.g., K=1): Very sensitive to noise and outliers. The decision boundary is very jagged.</div>
+<div class="tip">Large K: Smoother decision boundary, but may miss local patterns. Captures the global structure better.</div>
+<div class="warn">Always use odd K for binary classification to avoid ties (e.g., K=3 not K=4).</div>
+<div class="good">KNN is a "lazy learner" — it doesn't build an explicit model during training. It just memorizes all training data and computes at prediction time. Simple but can be slow for large datasets.</div>
+</div>
+</div>
+</div>
+
+<div class="box">
+<h3>Naïve Bayes Classifier</h3>
+<p>Uses Bayes' Theorem with the "naïve" assumption that all features are <em>statistically independent</em> given the class label. Despite this often unrealistic assumption, it works remarkably well in practice.</p>
+<div class="g2">
+<div>
+<pre>Bayes' Theorem:
+P(Class | Features) ∝ P(Class) × ΠP(Featureᵢ | Class)
+
+For each candidate class, compute:
+  Prior probability × Product of all likelihoods
+
+Pick the class with the HIGHEST score.</pre>
+<ul>
+<li><strong>P(Class):</strong> Prior — how often does this class appear overall?</li>
+<li><strong>P(Featureᵢ | Class):</strong> Likelihood — how often does this feature value appear for this class?</li>
+</ul>
+</div>
+<div>
+<div class="tip">Think of it as: "I see evidence X and Y. Which hypothesis — Pass or Fail — makes this evidence most likely?"</div>
+<p>Works great for categorical data and text classification (spam detection, sentiment analysis).</p>
+<div class="warn">The "naïve" assumption: features are treated as independent. In reality, "Confident" and "Studied" might be correlated. Naive Bayes ignores this — but it still gives good results in many practical cases.</div>
+</div>
+</div>
+</div>
+
+<div class="box">
+<h3>SVM — Support Vector Machine</h3>
+<p>SVM finds the best <em>hyperplane</em> that separates classes with the <em>maximum margin</em>. In 2D, the hyperplane is a line. In 3D, it's a plane. In higher dimensions, it's called a hyperplane.</p>
+<div class="g2">
+<div>
+<ul>
+<li><strong>Hyperplane:</strong> The decision boundary that separates classes. Points on one side = Class A; points on other side = Class B.</li>
+<li><strong>Margin:</strong> The distance between the hyperplane and the nearest training points on each side. SVM maximizes this margin.</li>
+<li><strong>Support vectors:</strong> The data points closest to the hyperplane. They "support" or define the position and orientation of the hyperplane — if you removed all other points, the hyperplane would stay the same.</li>
+<li><strong>Kernel trick:</strong> Projects data into a higher-dimensional space where it becomes linearly separable, then finds the hyperplane there. Useful when data cannot be separated by a straight line in its original space.</li>
+</ul>
+</div>
+<div>
+<div class="tip">Imagine drawing the fattest possible straight line between two groups of scattered points. The fatter the line (larger margin), the more confident and robust your classifier is — it can tolerate more noise.</div>
+<div class="good">SVM maximizes the margin → less overfitting, more robust than just finding any separating line. Especially powerful in high-dimensional spaces (like text classification).</div>
+</div>
+</div>
+</div>
+
+<div class="box">
+<h3>Confusion Matrix — measuring classification quality</h3>
+<p>A table that shows exactly where your classifier succeeds and fails, by comparing predicted labels to actual (ground truth) labels.</p>
+<div class="g2">
+<div>
+<table>
+<tr><th></th><th>Predicted YES</th><th>Predicted NO</th></tr>
+<tr><th>Actual YES</th><td style="background:#f0fff4">TP — True Positive<br>(correctly predicted Yes)</td><td style="background:#fff5f5">FN — False Negative<br>(missed a Yes — called it No)</td></tr>
+<tr><th>Actual NO</th><td style="background:#fff5f5">FP — False Positive<br>(false alarm — called it Yes)</td><td style="background:#f0fff4">TN — True Negative<br>(correctly predicted No)</td></tr>
+</table>
+</div>
+<div>
+<pre>Accuracy  = (TP+TN) / (TP+TN+FP+FN)
+           "Overall, how often am I correct?"
+
+Precision = TP / (TP+FP)
+           "Of all my Yes predictions, how
+            many were actually Yes?"
+
+Recall    = TP / (TP+FN)
+           "Of all actual Yes cases, how
+            many did I correctly catch?"
+
+F1-Score  = 2×TP / (2×TP + FP + FN)
+           "Harmonic mean of Precision & Recall"</pre>
+<div class="tip">Exam values (TP=40, FN=10, FP=5, TN=45, Total=100):<br>Accuracy = 85/100 = 85% | Precision = 40/45 = 88.9% | Recall = 40/50 = 80%</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ─────────── TAB 5: CLUSTERING ─────────── -->
+<div id="t5" class="tc">
+<h2 class="st">Clustering Algorithms</h2>
+
+<div class="box">
+<h3>Clustering vs Supervised Classification</h3>
+<table>
+<tr><th></th><th>Clustering (Unsupervised)</th><th>Classification (Supervised)</th></tr>
+<tr><td>Labels</td><td>Not given — algorithm discovers groups on its own</td><td>Given — model learns from labeled training data</td></tr>
+<tr><td>Goal</td><td>Find natural groupings (clusters) in unlabeled data</td><td>Predict predefined class for new data points</td></tr>
+<tr><td>Output</td><td>Cluster IDs — numbered groups (Cluster 1, 2, 3...)</td><td>Predefined class names (Pass/Fail, Spam/Ham)</td></tr>
+<tr><td>Number of groups</td><td>May be unknown before starting (DBSCAN) or set by user (K-Means)</td><td>Always known and fixed in advance</td></tr>
+<tr><td>Example</td><td>Grouping bank customers by spending behavior (groups unknown)</td><td>Detecting fraudulent transactions (fraud/not-fraud known)</td></tr>
+</table>
+<div class="tip">Key difference: In classification, you know "Pass" and "Fail" exist before you start. In clustering, you just see students' data and discover that they naturally form two groups — you name those groups afterward.</div>
+</div>
+
+<div class="box">
+<h3>K-Means — Centroid-based Clustering</h3>
+<p>Partitions n data points into K clusters. Each cluster is represented by its <em>centroid</em> (the geometric center/mean of all points in that cluster). Points are assigned to the cluster of the nearest centroid.</p>
+<p>Called "centroid-based" because:</p>
+<ul><li>Every cluster is defined by its centroid (the average position of all its points)</li>
+<li>Assignment is based on distance to centroids, not to individual points</li>
+<li>Centroids are recomputed after every assignment step</li></ul>
+<div class="g2">
+<div>
+<p><strong>Algorithm:</strong></p>
+<div class="step"><span class="sn">1</span><p>Choose K initial centroids (randomly or as given in exam)</p></div>
+<div class="step"><span class="sn">2</span><p>Assign each point to the nearest centroid (using Euclidean distance)</p></div>
+<div class="step"><span class="sn">3</span><p>Recompute each centroid = mean of all points currently assigned to it</p></div>
+<div class="step"><span class="sn">4</span><p>Repeat steps 2–3 until centroids stop changing (convergence)</p></div>
+<div class="good">Advantages: customer segmentation, anomaly detection, document organization, image compression, data summarization before supervised learning.</div>
+</div>
+<div>
+<p><strong>Exam Walkthrough (1 iteration):</strong></p>
+<p>Points: (1,1), (2,2), (8,8), (9,9) | Initial centroids: C1=(1,1), C2=(9,9)</p>
+<table>
+<tr><th>Point</th><th>Dist to C1(1,1)</th><th>Dist to C2(9,9)</th><th>Assigned to</th></tr>
+<tr><td>(1,1)</td><td>√0 = 0</td><td>√128 ≈ 11.31</td><td>C1</td></tr>
+<tr><td>(2,2)</td><td>√2 ≈ 1.41</td><td>√98 ≈ 9.90</td><td>C1</td></tr>
+<tr><td>(8,8)</td><td>√98 ≈ 9.90</td><td>√2 ≈ 1.41</td><td>C2</td></tr>
+<tr><td>(9,9)</td><td>√128 ≈ 11.31</td><td>√0 = 0</td><td>C2</td></tr>
+</table>
+<pre>Updated centroids after iteration 1:
+C1 = mean{(1,1),(2,2)} = (1.5, 1.5)
+C2 = mean{(8,8),(9,9)} = (8.5, 8.5)</pre>
+<p>In iteration 2 with new centroids, assignments wouldn't change → convergence reached.</p>
+</div>
+</div>
+</div>
+
+<div class="box">
+<h3>DBSCAN — Density-Based Spatial Clustering</h3>
+<p>Finds clusters of <em>arbitrary shape</em> (not just spherical like K-Means) based on the density of points. Does not require specifying K — discovers the number of clusters automatically.</p>
+<div class="g2">
+<div>
+<p><strong>Two key parameters:</strong> ε (epsilon) = neighborhood radius | MinPts = minimum neighbors required</p>
+<p><strong>Three types of points:</strong></p>
+<ul>
+<li><strong>Core point:</strong> Has at least MinPts data points within radius ε. It's a "popular" point at the dense center of a cluster.</li>
+<li><strong>Border point:</strong> Falls within ε of a core point, but has fewer than MinPts in its own neighborhood. It's on the edge of a cluster.</li>
+<li><strong>Noise point (outlier):</strong> Not reachable from any core point. Doesn't belong to any cluster.</li>
+</ul>
+</div>
+<div>
+<div class="tip">Party analogy: Core point = popular person surrounded by many friends. Border point = their acquaintance on the edge of the group. Noise = a stranger who knows nobody.</div>
+<div class="good">Key advantages over K-Means:<br>1. Handles non-spherical cluster shapes (crescents, rings, irregular blobs)<br>2. Automatically identifies outliers as noise<br>3. Doesn't require K to be specified upfront<br>4. Less sensitive to initialization</div>
+<div class="warn">Downside: Requires careful tuning of ε and MinPts. Can struggle when clusters have varying densities.</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ─────────── TAB 6: REGRESSION ─────────── -->
+<div id="t6" class="tc">
+<h2 class="st">Regression</h2>
+
+<div class="box">
+<h3>Simple Linear Regression</h3>
+<p>Models the <em>linear relationship</em> between one independent variable (X) and one continuous dependent variable (Y). Fits the best straight line through the data that minimizes prediction errors.</p>
+<div class="g2">
+<div>
+<pre>Equation:  y = a + bx
+
+Slope (b) — how much Y changes per unit X:
+b = (nΣXY − ΣXΣY) / (nΣX² − (ΣX)²)
+
+Intercept (a) — value of Y when X = 0:
+a = (ΣY − b·ΣX) / n</pre>
+<ul>
+<li><strong>Slope (b):</strong> Positive b = upward trend (more study → better marks). Negative b = downward trend.</li>
+<li><strong>Intercept (a):</strong> Where the best-fit line crosses the Y-axis. The baseline value.</li>
+</ul>
+<div class="tip">Example: If b=5 for study hours → exam marks, each extra hour of study is predicted to add 5 marks.</div>
+</div>
+<div>
+<p><strong>Exam Q7 — Internal → External marks (n=15 students):</strong></p>
+<pre>Given: ΣX=299, ΣY=852, n=15
+       ΣXY=17413, ΣX²=6187
+
+Step 1 — compute slope b:
+b = (15×17413 − 299×852)
+    ÷ (15×6187 − 299²)
+  = (261195 − 254748)
+    ÷ (92805 − 89401)
+  = 6447 ÷ 3404
+  ≈ 1.89
+
+Step 2 — compute intercept a:
+a = (852 − 1.89×299) / 15
+  = (852 − 565.1) / 15
+  ≈ 19.06
+
+Final equation: y ≈ 19.06 + 1.89x
+
+Predict external marks for internal = 20:
+y = 19.06 + 1.89×20 = 19.06 + 37.8 = 56.9</pre>
+</div>
+</div>
+</div>
+
+<div class="box">
+<h3>Multiple Linear Regression</h3>
+<p>Extends simple linear regression to <em>multiple independent variables</em>. More realistic — real outcomes depend on many factors simultaneously.</p>
+<pre>y = a + b₁x₁ + b₂x₂ + b₃x₃ + ... + bₙxₙ</pre>
+<div class="g2">
+<div>
+<div class="tip">Example: House price (Y) predicted from:<br>x₁ = size (sq ft), x₂ = number of bedrooms, x₃ = distance from city center<br>y = 50000 + 150×(size) + 20000×(bedrooms) − 1000×(distance)</div>
+<ul>
+<li><strong>Dependent variable (Y):</strong> The outcome you predict. Depends on other variables. (House price, exam score, revenue)</li>
+<li><strong>Independent variables (X):</strong> The inputs you observe or control. Predict Y. (Size, study hours, CGPA, temperature)</li>
+</ul>
+</div>
+<div>
+<ul>
+<li>Each bᵢ = change in Y for 1-unit increase in xᵢ, <em>holding all other variables constant</em></li>
+<li>More features = better fit, but risk <strong>overfitting</strong> if too many features for too few data points</li>
+<li><strong>Multicollinearity:</strong> Problem when two X variables are highly correlated with each other — makes bᵢ unstable and hard to interpret</li>
+</ul>
+<div class="warn">With many features and limited data, use Ridge or Lasso regularization to prevent overfitting.</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ─────────── TAB 7: PROBLEM SOLVER ─────────── -->
+<div id="t7" class="tc">
+<h2 class="st">Interactive Problem Solver</h2>
+
+<div class="box">
+<h3>KNN Calculator — using the exact exam training dataset</h3>
+<p>This uses the 8-student training dataset from your exam paper. Enter a test point and K value to see the step-by-step solution.</p>
+<div class="inline-flex">
+<div><label>CGPA</label><input type="number" id="knn-c" value="7.6" step="0.1" style="width:70px"></div>
+<div><label>Assessment</label><input type="number" id="knn-a" value="60" style="width:80px"></div>
+<div><label>Project</label><input type="number" id="knn-p" value="8" style="width:70px"></div>
+<div><label>K value</label><input type="number" id="knn-k" value="3" min="1" max="8" style="width:55px"></div>
+<div><button class="btn" onclick="doKNN()">Solve ↗</button></div>
+</div>
+<div id="knn-out" class="rb" style="display:none"></div>
+<p style="font-size:11.5px;color:#a0aec0;margin-top:0.4rem">Try: (7.6, 60, 8) with K=3 | (6.1, 40, 5) with K=5 — both are from your exam paper.</p>
+</div>
+
+<div class="box">
+<h3>Confusion Matrix Calculator</h3>
+<div class="inline-flex">
+<div><label>TP (True Positive)</label><input type="number" id="tp" value="40"></div>
+<div><label>FN (False Negative)</label><input type="number" id="fn" value="10"></div>
+<div><label>FP (False Positive)</label><input type="number" id="fp" value="5"></div>
+<div><label>TN (True Negative)</label><input type="number" id="tn" value="45"></div>
+<div><button class="btn" onclick="doCM()">Calculate ↗</button></div>
+</div>
+<div id="cm-out" class="rb" style="display:none"></div>
+</div>
+
+<div class="box">
+<h3>Naïve Bayes — Exam Q3 Walkthrough (Confident=Yes, Sick=No → Pass or Fail?)</h3>
+<table>
+<tr><th>Row</th><th>Confident</th><th>Studied</th><th>Sick</th><th>Result</th></tr>
+<tr><td>1</td><td>Yes</td><td>No</td><td>No</td><td>Fail</td></tr>
+<tr><td>2</td><td>Yes</td><td>No</td><td>Yes</td><td>Pass</td></tr>
+<tr><td>3</td><td>No</td><td>Yes</td><td>Yes</td><td>Fail</td></tr>
+<tr><td>4</td><td>No</td><td>Yes</td><td>No</td><td>Pass</td></tr>
+<tr><td>5</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Pass</td></tr>
+</table>
+<div class="rb">
+<strong>Step 1 — Prior Probabilities:</strong><br>
+P(Pass) = 3/5 = 0.600 &nbsp;&nbsp;|&nbsp;&nbsp; P(Fail) = 2/5 = 0.400<br><br>
+<strong>Step 2 — Likelihoods for "Confident = Yes":</strong><br>
+&nbsp;&nbsp;Pass rows = rows 2, 4, 5 → Confident values: Yes, No, Yes → 2 "Yes" out of 3<br>
+&nbsp;&nbsp;P(Confident=Yes | Pass) = 2/3 ≈ 0.667<br>
+&nbsp;&nbsp;Fail rows = rows 1, 3 → Confident values: Yes, No → 1 "Yes" out of 2<br>
+&nbsp;&nbsp;P(Confident=Yes | Fail) = 1/2 = 0.500<br><br>
+<strong>Step 3 — Likelihoods for "Sick = No":</strong><br>
+&nbsp;&nbsp;Pass rows Sick values: Yes (row2), No (row4), Yes (row5) → 1 "No" out of 3<br>
+&nbsp;&nbsp;P(Sick=No | Pass) = 1/3 ≈ 0.333<br>
+&nbsp;&nbsp;Fail rows Sick values: No (row1), Yes (row3) → 1 "No" out of 2<br>
+&nbsp;&nbsp;P(Sick=No | Fail) = 1/2 = 0.500<br><br>
+<strong>Step 4 — Multiply (prior × likelihoods for each class):</strong><br>
+&nbsp;&nbsp;Score(Pass) = 0.600 × 0.667 × 0.333 = <strong>0.133</strong><br>
+&nbsp;&nbsp;Score(Fail) = 0.400 × 0.500 × 0.500 = <strong>0.100</strong><br><br>
+0.133 &gt; 0.100 → <strong>Prediction: <span class="tag tp">PASS</span></strong><br><br>
+<em>Note: Studied is not given in the query, so we only use Confident and Sick as features. The naïve assumption means we can safely ignore the missing feature.</em>
+</div>
+</div>
+
+<div class="box">
+<h3>Naïve Bayes — P(Yellow | Mango) from Exam Q12</h3>
+<table>
+<tr><th>Fruit</th><th>Yellow</th><th>Sweet</th><th>Long</th><th>Total</th></tr>
+<tr><td>Mango</td><td>350</td><td>450</td><td>0</td><td>650</td></tr>
+<tr><td>Banana</td><td>400</td><td>300</td><td>350</td><td>400</td></tr>
+<tr><td>Others</td><td>50</td><td>100</td><td>50</td><td>150</td></tr>
+<tr><th>Total</th><th>800</th><th>850</th><th>400</th><th>1200</th></tr>
+</table>
+<div class="rb">
+P(Yellow | Mango) = (Count of yellow mangoes) ÷ (Total mango count)<br>
+= 350 ÷ 650 ≈ <strong>0.538 = 53.8%</strong><br><br>
+This is a conditional probability: "Given that a fruit IS a mango, what is the probability that it is yellow?" Answer: 53.8%.<br><br>
+Note: This is NOT P(Mango | Yellow). That would be 350/800 = 43.75%. Don't confuse the direction of conditioning!
+</div>
+</div>
+
+<div class="box">
+<h3>Normalization Calculator</h3>
+<div class="inline-flex">
+<div><label>Value (x)</label><input type="number" id="nx" value="170" style="width:75px"></div>
+<div><label>Min</label><input type="number" id="nmin" value="150" style="width:65px"></div>
+<div><label>Max</label><input type="number" id="nmax" value="190" style="width:65px"></div>
+<div><label>Mean (μ)</label><input type="number" id="nmean" value="170" style="width:65px"></div>
+<div><label>Std Dev (σ)</label><input type="number" id="nstd" value="10" style="width:65px"></div>
+<div><button class="btn" onclick="doNorm()">Calculate ↗</button></div>
+</div>
+<div id="norm-out" class="rb" style="display:none"></div>
+</div>
+
+</div>
+</main>
+
+<script>
+document.querySelectorAll('.nb').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.nb').forEach(x => x.classList.remove('on'));
+    document.querySelectorAll('.tc').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    document.getElementById('t' + b.dataset.t).classList.add('on');
+    window.scrollTo(0, 0);
+  });
+});
+
+const TRAIN = [
+  {s:1,c:9.2,a:85,p:8,r:'Pass'},{s:2,c:8.0,a:80,p:7,r:'Pass'},
+  {s:3,c:8.5,a:81,p:8,r:'Pass'},{s:4,c:6.0,a:45,p:5,r:'Fail'},
+  {s:5,c:6.5,a:50,p:4,r:'Fail'},{s:6,c:8.2,a:72,p:7,r:'Pass'},
+  {s:7,c:5.8,a:38,p:5,r:'Fail'},{s:8,c:8.9,a:91,p:9,r:'Pass'}
+];
+
+function doKNN() {
+  const tc = parseFloat(document.getElementById('knn-c').value);
+  const ta = parseFloat(document.getElementById('knn-a').value);
+  const tp2 = parseFloat(document.getElementById('knn-p').value);
+  const K = parseInt(document.getElementById('knn-k').value);
+  const rows = TRAIN.map(pt => ({
+    ...pt, d: Math.sqrt((pt.c-tc)**2 + (pt.a-ta)**2 + (pt.p-tp2)**2)
+  })).sort((a,b) => a.d - b.d);
+  const knn = rows.slice(0, K);
+  const pc = knn.filter(x => x.r==='Pass').length;
+  const fc = knn.filter(x => x.r==='Fail').length;
+  const pred = pc > fc ? 'Pass' : 'Fail';
+  let trs = rows.map((r, i) => {
+    const hi = i < K;
+    return `<tr style="background:${hi?'#ebf8ff':''}">
+      <td>${r.s}</td><td>${r.c}</td><td>${r.a}</td><td>${r.p}</td>
+      <td><span style="color:${r.r==='Pass'?'#276749':'#9b2c2c'};font-weight:600">${r.r}</span></td>
+      <td style="font-family:monospace">${r.d.toFixed(3)}</td>
+      <td>${hi?'<span class="tag tb">✓ selected</span>':''}</td></tr>`;
+  }).join('');
+  document.getElementById('knn-out').innerHTML =
+    `<p>Test point: (CGPA=${tc}, Assessment=${ta}, Project=${tp2}) with K=${K}</p>
+     <br>
+     <table><tr><th>Srl</th><th>CGPA</th><th>Assess</th><th>Project</th><th>Result</th><th>Distance</th><th>In top-K?</th></tr>${trs}</table>
+     <br>
+     <strong>Among K=${K} nearest neighbors:</strong> Pass=${pc}, Fail=${fc}<br>
+     <strong>Majority vote → Prediction: <span class="tag ${pred==='Pass'?'tp':'tf'}">${pred}</span></strong>`;
+  document.getElementById('knn-out').style.display='block';
+}
+
+function doCM() {
+  const tp=+document.getElementById('tp').value, fn=+document.getElementById('fn').value;
+  const fp=+document.getElementById('fp').value, tn=+document.getElementById('tn').value;
+  const tot = tp+fn+fp+tn;
+  const acc = ((tp+tn)/tot*100).toFixed(1);
+  const prec = (tp/(tp+fp)*100).toFixed(1);
+  const rec = (tp/(tp+fn)*100).toFixed(1);
+  const f1 = (2*tp/(2*tp+fp+fn)*100).toFixed(1);
+  document.getElementById('cm-out').innerHTML =
+    `<table>
+     <tr><th></th><th>Predicted YES</th><th>Predicted NO</th><th>Total Actual</th></tr>
+     <tr><th>Actual YES</th><td style="background:#f0fff4">TP = ${tp}</td><td style="background:#fff5f5">FN = ${fn}</td><td>${tp+fn}</td></tr>
+     <tr><th>Actual NO</th><td style="background:#fff5f5">FP = ${fp}</td><td style="background:#f0fff4">TN = ${tn}</td><td>${fp+tn}</td></tr>
+     <tr><th>Total Predicted</th><td>${tp+fp}</td><td>${fn+tn}</td><td>${tot}</td></tr>
+     </table><br>
+     <strong>Accuracy</strong>  = (TP+TN)/Total = (${tp}+${tn})/${tot} = <strong>${acc}%</strong><br>
+     <strong>Precision</strong> = TP/(TP+FP) = ${tp}/(${tp}+${fp}) = <strong>${prec}%</strong><br>
+     <strong>Recall</strong>    = TP/(TP+FN) = ${tp}/(${tp}+${fn}) = <strong>${rec}%</strong><br>
+     <strong>F1-Score</strong>  = 2×TP/(2×TP+FP+FN) = 2×${tp}/(2×${tp}+${fp}+${fn}) = <strong>${f1}%</strong>`;
+  document.getElementById('cm-out').style.display='block';
+}
+
+function doNorm() {
+  const x=+document.getElementById('nx').value, mn=+document.getElementById('nmin').value;
+  const mx=+document.getElementById('nmax').value, mu=+document.getElementById('nmean').value;
+  const sd=+document.getElementById('nstd').value;
+  const mm = ((x-mn)/(mx-mn)).toFixed(4);
+  const zs = ((x-mu)/sd).toFixed(4);
+  document.getElementById('norm-out').innerHTML =
+    `<strong>Min-Max Normalization:</strong><br>
+     x' = (x - min) / (max - min) = (${x} − ${mn}) / (${mx} − ${mn}) = <strong>${mm}</strong><br><br>
+     <strong>Z-Score Normalization:</strong><br>
+     z = (x - μ) / σ = (${x} − ${mu}) / ${sd} = <strong>${zs}</strong><br><br>
+     Interpretation: Min-Max result of ${mm} means the value is ${(parseFloat(mm)*100).toFixed(1)}% of the way from min to max. Z-score of ${zs} means the value is ${Math.abs(parseFloat(zs)).toFixed(2)} standard deviations ${parseFloat(zs) >= 0 ? 'above' : 'below'} the mean.`;
+  document.getElementById('norm-out').style.display='block';
+}
+</script>
+</body>
+</html>
