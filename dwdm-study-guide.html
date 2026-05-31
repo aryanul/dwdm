@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DWDM · ESA Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4ede0; --paper-2:#ede2cf; --card:#fbf6ec; --ink:#2a2017; --ink-soft:#5b4c3a;
+  --rule:#d8c9ad; --accent:#9a4221; --accent-2:#c4762a; --gold:#b88a3a;
+  --gA:#7a6f3c; --gB:#9a4221; --gC:#4a5e74; --good:#3f6b3a; --shadow:rgba(60,40,20,.16);
+  --grid:rgba(120,90,50,.07);
+}
+[data-theme="dark"]{
+  --paper:#19150f; --paper-2:#221c13; --card:#231d14; --ink:#ede3d0; --ink-soft:#b3a488;
+  --rule:#3d3322; --accent:#e08a4a; --accent-2:#d8a24a; --gold:#caa055;
+  --gA:#c9bb6e; --gB:#e08a4a; --gC:#86a4c4; --good:#7fb070; --shadow:rgba(0,0,0,.5);
+  --grid:rgba(220,180,110,.045);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.62;
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:34px 34px;
+  -webkit-font-smoothing:antialiased;transition:background-color .35s,color .35s;
+}
+::selection{background:var(--accent);color:var(--paper)}
+
+/* ---------- header ---------- */
+header.masthead{
+  border-bottom:3px double var(--ink);padding:30px 26px 22px;
+  max-width:1180px;margin:0 auto;position:relative;
+}
+.kicker{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.34em;
+  text-transform:uppercase;color:var(--accent);font-weight:700;
+}
+.masthead h1{
+  font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.4rem,6vw,4.4rem);
+  line-height:.96;letter-spacing:-.02em;margin:.12em 0 .1em;
+}
+.masthead h1 em{font-style:italic;font-weight:500;color:var(--accent)}
+.subline{
+  font-style:italic;color:var(--ink-soft);font-size:1.05rem;
+  display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;
+}
+.subline .code{
+  font-family:'JetBrains Mono',monospace;font-style:normal;font-size:.72rem;
+  border:1px solid var(--rule);padding:3px 8px;border-radius:3px;letter-spacing:.08em;
+}
+.theme-btn{
+  position:absolute;top:30px;right:26px;background:var(--card);border:1.5px solid var(--ink);
+  color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;
+  padding:9px 13px;border-radius:30px;cursor:pointer;letter-spacing:.06em;
+  display:flex;align-items:center;gap:7px;transition:transform .15s,background .25s;
+}
+.theme-btn:hover{transform:translateY(-2px)}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:0 26px 90px;display:grid;
+  grid-template-columns:236px 1fr;gap:38px;align-items:start}
+nav.side{position:sticky;top:18px;padding-top:26px}
+.side h4{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-soft);margin:18px 0 8px;font-weight:700;
+}
+.side a{
+  display:flex;justify-content:space-between;gap:8px;color:var(--ink-soft);
+  text-decoration:none;font-size:.94rem;padding:5px 9px;border-radius:5px;
+  border-left:2px solid transparent;transition:.18s;
+}
+.side a:hover{color:var(--ink);background:var(--paper-2)}
+.side a.on{color:var(--accent);border-left-color:var(--accent);background:var(--paper-2);font-weight:600}
+.side a span{font-family:'JetBrains Mono',monospace;font-size:.66rem;opacity:.6}
+
+/* ---------- progress ---------- */
+.tracker{
+  background:var(--card);border:1.5px solid var(--rule);border-radius:9px;
+  padding:14px;margin-bottom:8px;box-shadow:3px 3px 0 var(--shadow);
+}
+.tracker .lab{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-soft);display:flex;justify-content:space-between}
+.bar{height:9px;background:var(--paper-2);border-radius:6px;margin-top:8px;overflow:hidden;
+  border:1px solid var(--rule)}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--gold));
+  transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.tracker .pct{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;margin-top:6px}
+.reset{background:none;border:none;color:var(--accent);font-family:'JetBrains Mono',monospace;
+  font-size:.66rem;cursor:pointer;text-decoration:underline;padding:0;margin-top:4px}
+
+/* ---------- main ---------- */
+main{min-width:0;padding-top:26px}
+
+/* search + tabs */
+.toolbar{
+  position:sticky;top:0;z-index:30;background:var(--paper);
+  padding:14px 0 12px;border-bottom:1.5px solid var(--rule);margin-bottom:24px;
+}
+.search-row{display:flex;gap:10px;flex-wrap:wrap}
+.search{flex:1;min-width:200px;position:relative}
+.search input{
+  width:100%;background:var(--card);border:1.5px solid var(--ink);border-radius:7px;
+  padding:11px 14px 11px 38px;font-family:'Newsreader',serif;font-size:1rem;color:var(--ink);
+}
+.search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--grid)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.5}
+.ctrl-btn{
+  background:var(--card);border:1.5px solid var(--ink);color:var(--ink);cursor:pointer;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;padding:0 14px;
+  border-radius:7px;letter-spacing:.05em;transition:.15s;
+}
+.ctrl-btn:hover{background:var(--ink);color:var(--paper)}
+.tabs{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.tab{
+  background:transparent;border:1.5px solid var(--rule);color:var(--ink-soft);cursor:pointer;
+  font-family:'JetBrains Mono',monospace;font-size:.73rem;font-weight:700;padding:8px 15px;
+  border-radius:30px;letter-spacing:.05em;transition:.16s;
+}
+.tab:hover{border-color:var(--ink);color:var(--ink)}
+.tab.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tab .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+/* section heading */
+.sec-head{margin:34px 0 14px;display:flex;align-items:baseline;gap:14px}
+.sec-head .n{font-family:'Fraunces',serif;font-weight:900;font-size:2.6rem;color:var(--rule);
+  line-height:1}
+.sec-head .t{font-family:'Fraunces',serif;font-weight:700;font-size:1.5rem}
+.sec-head .meta{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--ink-soft);
+  letter-spacing:.08em;margin-left:auto}
+.sec-intro{font-style:italic;color:var(--ink-soft);font-size:.98rem;margin-bottom:18px;
+  border-left:3px solid var(--accent);padding-left:14px}
+
+/* ---------- Q card ---------- */
+.qcard{
+  background:var(--card);border:1.5px solid var(--rule);border-radius:10px;
+  margin-bottom:13px;box-shadow:3px 3px 0 var(--shadow);overflow:hidden;
+  transition:border-color .2s,box-shadow .2s;
+}
+.qcard.studied{border-color:var(--good)}
+.qcard.studied .qnum{background:var(--good)}
+.qhead{display:flex;gap:13px;align-items:flex-start;padding:15px 17px;cursor:pointer;
+  user-select:none}
+.qhead:hover{background:var(--paper-2)}
+.qnum{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;color:var(--paper);
+  background:var(--accent);padding:4px 8px;border-radius:5px;flex-shrink:0;margin-top:2px;
+  min-width:42px;text-align:center;
+}
+.qtext{flex:1;font-family:'Fraunces',serif;font-size:1.08rem;font-weight:600;line-height:1.4}
+.qmarks{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--ink-soft);
+  border:1px solid var(--rule);padding:2px 6px;border-radius:4px;flex-shrink:0;margin-top:3px}
+.chev{flex-shrink:0;transition:transform .25s;margin-top:4px;opacity:.55}
+.qcard.open .chev{transform:rotate(90deg)}
+.qbody{display:none;padding:0 17px 18px 72px;animation:fade .3s ease}
+.qcard.open .qbody{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.qbody p{margin:.5em 0}
+.qbody h5{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;margin:1em 0 .3em;
+  color:var(--accent)}
+.qbody ul,.qbody ol{margin:.5em 0 .5em 1.3em}
+.qbody li{margin:.32em 0}
+.qbody b,.qbody strong{font-weight:600}
+.tag{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.05em;
+  background:var(--paper-2);border:1px solid var(--rule);padding:2px 7px;border-radius:20px;
+  color:var(--ink-soft);text-transform:uppercase}
+.mark-row{display:flex;align-items:center;gap:9px;margin-top:14px;padding-top:12px;
+  border-top:1px dashed var(--rule)}
+.mark-row label{font-family:'JetBrains Mono',monospace;font-size:.7rem;cursor:pointer;
+  display:flex;align-items:center;gap:8px;color:var(--ink-soft)}
+.mark-row input{width:17px;height:17px;accent-color:var(--good);cursor:pointer}
+
+/* solution / formula boxes */
+.box{border:1.5px solid var(--rule);border-radius:8px;padding:13px 15px;margin:12px 0;
+  background:var(--paper-2)}
+.box.solve{border-left:4px solid var(--gold)}
+.box.note{border-left:4px solid var(--gC)}
+.box.def{border-left:4px solid var(--accent)}
+.box .bt{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin-bottom:6px}
+.mono{font-family:'JetBrains Mono',monospace;font-size:.86rem;background:var(--paper);
+  padding:2px 6px;border-radius:4px;border:1px solid var(--rule)}
+.fml{font-family:'JetBrains Mono',monospace;font-size:.92rem;text-align:center;
+  background:var(--paper);border:1px dashed var(--rule);border-radius:6px;padding:10px;
+  margin:9px 0;line-height:1.8}
+.steps{counter-reset:s;list-style:none;margin:.5em 0!important}
+.steps li{counter-increment:s;position:relative;padding-left:30px;margin:.55em 0}
+.steps li::before{content:counter(s);position:absolute;left:0;top:1px;
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:700;
+  background:var(--gold);color:var(--paper);width:20px;height:20px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center}
+.ans-final{background:var(--good);color:#fff;font-family:'Fraunces',serif;font-weight:700;
+  padding:8px 14px;border-radius:7px;display:inline-block;margin-top:8px;font-size:1.02rem}
+
+/* tables */
+table.dt{border-collapse:collapse;width:100%;margin:11px 0;font-size:.84rem;
+  font-family:'JetBrains Mono',monospace}
+table.dt th,table.dt td{border:1px solid var(--rule);padding:6px 9px;text-align:center}
+table.dt th{background:var(--ink);color:var(--paper);font-weight:700;font-size:.7rem;
+  letter-spacing:.04em}
+table.dt tr:nth-child(even) td{background:var(--paper-2)}
+table.dt td.hl{background:var(--gold)!important;color:#fff;font-weight:700}
+
+/* svg diagrams */
+.diagram{margin:14px 0;text-align:center}
+.diagram svg{max-width:100%;height:auto}
+.dcap{font-style:italic;font-size:.82rem;color:var(--ink-soft);margin-top:5px}
+.svg-ink{fill:var(--ink)} .svg-soft{fill:var(--ink-soft)}
+
+/* visual library cards */
+.vis-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.vis-card{background:var(--card);border:1.5px solid var(--rule);border-radius:10px;
+  padding:18px;box-shadow:3px 3px 0 var(--shadow)}
+.vis-card h4{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;margin-bottom:4px}
+.vis-card .vd{font-style:italic;color:var(--ink-soft);font-size:.9rem;margin-bottom:8px}
+
+.noresult{text-align:center;padding:50px 20px;font-style:italic;color:var(--ink-soft)}
+footer{max-width:1180px;margin:0 auto;padding:26px;border-top:3px double var(--ink);
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--ink-soft);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.hidden{display:none!important}
+
+@media(max-width:860px){
+  .wrap{grid-template-columns:1fr;gap:0}
+  nav.side{position:static;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;
+    border-bottom:1.5px solid var(--rule);padding-bottom:18px;margin-bottom:8px}
+  .tracker{grid-column:1/-1}
+  .qbody{padding-left:17px}
+  .theme-btn{position:static;margin-top:14px}
+  body{font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="kicker">End-Semester Assessment · Exam Companion</div>
+  <h1>Data Warehousing<br>& <em>Data Mining</em></h1>
+  <div class="subline">
+    <span class="code">TIU-UCS-E418B</span>
+    <span>An interactive revision deck — every suggested question, solved, with diagrams.</span>
+  </div>
+  <button class="theme-btn" id="themeBtn">◐ <span>Dark</span></button>
+</header>
+
+<div class="wrap">
+  <!-- ===== SIDEBAR ===== -->
+  <nav class="side">
+    <div class="tracker">
+      <div class="lab"><span>Revision progress</span></div>
+      <div class="pct" id="pctTxt">0%</div>
+      <div class="bar"><i id="barFill"></i></div>
+      <div class="lab" style="margin-top:6px"><span id="cntTxt">0 / 0 studied</span></div>
+      <button class="reset" id="resetBtn">reset</button>
+    </div>
+    <h4>Jump to</h4>
+    <a href="#gA" class="navlink on" data-sec="gA">Group A <span>2 mk</span></a>
+    <a href="#gB" class="navlink" data-sec="gB">Group B <span>5 mk</span></a>
+    <a href="#gC" class="navlink" data-sec="gC">Group C <span>10 mk</span></a>
+    <a href="#vis" class="navlink" data-sec="vis">Visual Library <span>SVG</span></a>
+    <a href="#fx" class="navlink" data-sec="fx">Formula Sheet <span>∑</span></a>
+    <h4>Tip</h4>
+    <p style="font-size:.82rem;color:var(--ink-soft);font-style:italic;padding:0 9px">
+      Click any question to reveal the answer. Tick it off once you've revised it — your
+      progress bar fills up as you go.</p>
+  </nav>
+
+  <!-- ===== MAIN ===== -->
+  <main>
+    <div class="toolbar">
+      <div class="search-row">
+        <div class="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="searchBox" placeholder="Search topics — e.g. apriori, kmeans, OLAP, normalization…">
+        </div>
+        <button class="ctrl-btn" id="expandAll">⊕ Expand</button>
+        <button class="ctrl-btn" id="collapseAll">⊖ Collapse</button>
+      </div>
+      <div class="tabs" id="tabs">
+        <button class="tab on" data-f="all">All</button>
+        <button class="tab" data-f="gA"><span class="dot" style="background:var(--gA)"></span>Group A</button>
+        <button class="tab" data-f="gB"><span class="dot" style="background:var(--gB)"></span>Group B</button>
+        <button class="tab" data-f="gC"><span class="dot" style="background:var(--gC)"></span>Group C</button>
+        <button class="tab" data-f="numeric">★ Numericals</button>
+      </div>
+    </div>
+
+    <div id="content"></div>
+    <div class="noresult hidden" id="noResult">No questions match that search. Try another keyword.</div>
+  </main>
+</div>
+
+<footer>
+  <span>DWDM · ESA Revision Deck</span>
+  <span>Built for self-study — verify worked numbers against your own working.</span>
+</footer>
+
+<script>
+/* =========================================================
+   DIAGRAM LIBRARY  —  reusable inline SVG strings
+   ========================================================= */
+const D = {};
+
+D.kdd = `<div class="diagram"><svg viewBox="0 0 720 130" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+${['Data','Selection','Pre-\\nprocessing','Transform-\\nation','Data\\nMining','Pattern\\nEvaluation','Knowledge'].map((t,i)=>{
+const x=10+i*100;const c=['#d8c9ad','#caa055','#c4762a','#9a4221','#7a2f15','#4a5e74','#3f6b3a'][i];
+const lines=t.split('\\n');
+return `<rect x="${x}" y="35" width="80" height="56" rx="8" fill="${c}" opacity="0.92"/>
+${lines.map((l,j)=>`<text x="${x+40}" y="${(lines.length===1?68:58)+j*13}" fill="#fff" font-size="9.5" font-weight="700" text-anchor="middle">${l}</text>`).join('')}
+${i<6?`<path d="M${x+80} 63 h18" stroke="#5b4c3a" stroke-width="2.2"/><path d="M${x+96} 59 l6 4 -6 4z" fill="#5b4c3a"/>`:''}`;}).join('')}
+<text x="360" y="22" fill="#9a4221" font-size="10" font-weight="700" text-anchor="middle">KNOWLEDGE DISCOVERY IN DATABASES — 7 STAGES</text>
+<text x="360" y="115" fill="#5b4c3a" font-size="8.5" text-anchor="middle" font-style="italic">Data Mining is just ONE step of the larger KDD process</text>
+</svg><div class="dcap">Fig — The seven stages of the KDD process</div></div>`;
+
+D.dwarch = `<div class="diagram"><svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+<text x="350" y="18" fill="#9a4221" font-size="11" font-weight="700" text-anchor="middle">THREE-TIER DATA WAREHOUSE ARCHITECTURE</text>
+<!-- sources -->
+<text x="90" y="42" fill="#5b4c3a" font-size="9" font-weight="700" text-anchor="middle">SOURCE TIER</text>
+${['Operational DB','Flat Files','External / ERP'].map((t,i)=>`<rect x="20" y="${52+i*52}" width="140" height="38" rx="6" fill="#d8c9ad"/><text x="90" y="${75+i*52}" font-size="9" fill="#2a2017" text-anchor="middle" font-weight="600">${t}</text>`).join('')}
+<!-- ETL -->
+<rect x="200" y="78" width="86" height="120" rx="8" fill="#c4762a"/>
+<text x="243" y="128" fill="#fff" font-size="13" font-weight="700" text-anchor="middle">ETL</text>
+<text x="243" y="146" fill="#fff" font-size="7.5" text-anchor="middle">Extract</text>
+<text x="243" y="158" fill="#fff" font-size="7.5" text-anchor="middle">Transform</text>
+<text x="243" y="170" fill="#fff" font-size="7.5" text-anchor="middle">Load</text>
+<!-- warehouse -->
+<rect x="330" y="62" width="150" height="150" rx="8" fill="#9a4221"/>
+<text x="405" y="100" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">DATA</text>
+<text x="405" y="116" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">WAREHOUSE</text>
+<text x="405" y="140" fill="#fff" font-size="7.5" text-anchor="middle">subject-oriented · integrated</text>
+<text x="405" y="152" fill="#fff" font-size="7.5" text-anchor="middle">time-variant · non-volatile</text>
+<rect x="350" y="166" width="110" height="34" rx="5" fill="#7a2f15"/>
+<text x="405" y="187" fill="#fff" font-size="8" text-anchor="middle">Data Marts + Metadata</text>
+<!-- olap / front -->
+${['OLAP Server','Reporting','Data Mining'].map((t,i)=>`<rect x="520" y="${62+i*52}" width="150" height="40" rx="6" fill="#4a5e74"/><text x="595" y="${86+i*52}" font-size="9" fill="#fff" text-anchor="middle" font-weight="600">${t}</text>`).join('')}
+<text x="595" y="42" fill="#5b4c3a" font-size="9" font-weight="700" text-anchor="middle">FRONT-END / OLAP TIER</text>
+<!-- arrows -->
+<path d="M160 130 h36" stroke="#5b4c3a" stroke-width="2.4"/><path d="M194 126 l8 4 -8 4z" fill="#5b4c3a"/>
+<path d="M286 138 h40" stroke="#5b4c3a" stroke-width="2.4"/><path d="M324 134 l8 4 -8 4z" fill="#5b4c3a"/>
+<path d="M480 130 h36" stroke="#5b4c3a" stroke-width="2.4"/><path d="M514 126 l8 4 -8 4z" fill="#5b4c3a"/>
+<text x="350" y="245" fill="#5b4c3a" font-size="8.5" text-anchor="middle" font-style="italic">Bottom tier = warehouse DB server · Middle tier = OLAP server · Top tier = client tools</text>
+</svg><div class="dcap">Fig — Architecture of a Data Warehouse</div></div>`;
+
+D.star = `<div class="diagram"><svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+<text x="240" y="20" fill="#9a4221" font-size="11" font-weight="700" text-anchor="middle">STAR SCHEMA</text>
+<!-- lines -->
+<line x1="240" y1="160" x2="100" y2="70" stroke="#b88a3a" stroke-width="2"/>
+<line x1="240" y1="160" x2="380" y2="70" stroke="#b88a3a" stroke-width="2"/>
+<line x1="240" y1="160" x2="100" y2="250" stroke="#b88a3a" stroke-width="2"/>
+<line x1="240" y1="160" x2="380" y2="250" stroke="#b88a3a" stroke-width="2"/>
+<!-- fact -->
+<rect x="170" y="125" width="140" height="70" rx="6" fill="#9a4221"/>
+<text x="240" y="148" fill="#fff" font-size="10" font-weight="700" text-anchor="middle">FACT: Sales</text>
+<text x="240" y="164" fill="#fff" font-size="7.5" text-anchor="middle">qty · amount · discount</text>
+<text x="240" y="178" fill="#fff" font-size="7.5" text-anchor="middle">FK: time,prod,cust,store</text>
+<!-- dims -->
+${[['Time','30','35'],['Product','310','35'],['Customer','30','215'],['Store','310','215']].map(d=>`<rect x="${d[1]}" y="${d[2]}" width="140" height="62" rx="6" fill="#4a5e74"/><text x="${+d[1]+70}" y="${+d[2]+26}" fill="#fff" font-size="9" font-weight="700" text-anchor="middle">DIM: ${d[0]}</text><text x="${+d[1]+70}" y="${+d[2]+42}" fill="#fff" font-size="7" text-anchor="middle">descriptive attributes</text>`).join('')}
+<text x="240" y="305" fill="#5b4c3a" font-size="8" text-anchor="middle" font-style="italic">One central fact table · denormalized dimensions · few joins · fast</text>
+</svg><div class="dcap">Fig — Star Schema (denormalized dimensions)</div></div>`;
+
+D.snow = `<div class="diagram"><svg viewBox="0 0 500 330" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+<text x="250" y="20" fill="#9a4221" font-size="11" font-weight="700" text-anchor="middle">SNOWFLAKE SCHEMA</text>
+<line x1="250" y1="165" x2="120" y2="100" stroke="#b88a3a" stroke-width="2"/>
+<line x1="250" y1="165" x2="370" y2="100" stroke="#b88a3a" stroke-width="2"/>
+<line x1="120" y1="100" x2="40" y2="40" stroke="#86a4c4" stroke-width="1.6"/>
+<line x1="370" y1="100" x2="450" y2="40" stroke="#86a4c4" stroke-width="1.6"/>
+<line x1="250" y1="165" x2="250" y2="270" stroke="#b88a3a" stroke-width="2"/>
+<line x1="250" y1="270" x2="150" y2="300" stroke="#86a4c4" stroke-width="1.6"/>
+<rect x="185" y="135" width="130" height="60" rx="6" fill="#9a4221"/>
+<text x="250" y="160" fill="#fff" font-size="10" font-weight="700" text-anchor="middle">FACT: Sales</text>
+<text x="250" y="176" fill="#fff" font-size="7.5" text-anchor="middle">measures + FKs</text>
+<rect x="60" y="78" width="120" height="44" rx="6" fill="#4a5e74"/><text x="120" y="104" fill="#fff" font-size="8.5" text-anchor="middle" font-weight="700">DIM: Product</text>
+<rect x="0" y="14" width="120" height="40" rx="6" fill="#7a6f3c"/><text x="60" y="38" fill="#fff" font-size="8" text-anchor="middle">Category (sub-dim)</text>
+<rect x="320" y="78" width="120" height="44" rx="6" fill="#4a5e74"/><text x="380" y="104" fill="#fff" font-size="8.5" text-anchor="middle" font-weight="700">DIM: Store</text>
+<rect x="380" y="14" width="120" height="40" rx="6" fill="#7a6f3c"/><text x="440" y="38" fill="#fff" font-size="8" text-anchor="middle">City→State (sub-dim)</text>
+<rect x="190" y="250" width="120" height="44" rx="6" fill="#4a5e74"/><text x="250" y="276" fill="#fff" font-size="8.5" text-anchor="middle" font-weight="700">DIM: Customer</text>
+<rect x="90" y="288" width="120" height="36" rx="6" fill="#7a6f3c"/><text x="150" y="310" fill="#fff" font-size="8" text-anchor="middle">Region (sub-dim)</text>
+</svg><div class="dcap">Fig — Snowflake Schema (dimensions normalized into sub-tables)</div></div>`;
+
+D.etl = `<div class="diagram"><svg viewBox="0 0 680 150" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+<text x="340" y="18" fill="#9a4221" font-size="11" font-weight="700" text-anchor="middle">ETL — EXTRACT · TRANSFORM · LOAD</text>
+${[['Sources\\nOLTP / files','#d8c9ad','#2a2017'],['EXTRACT\\nread raw data','#c4762a','#fff'],['Staging Area\\nclean · dedup · merge','#b88a3a','#fff'],['TRANSFORM\\nnormalize · derive','#9a4221','#fff'],['LOAD\\ninto warehouse','#7a2f15','#fff'],['Data\\nWarehouse','#4a5e74','#fff']].map((b,i)=>{
+const x=14+i*112;const ls=b[0].split('\\n');
+return `<rect x="${x}" y="50" width="96" height="58" rx="7" fill="${b[1]}"/>${ls.map((l,j)=>`<text x="${x+48}" y="${(ls.length===2?72:80)+j*14}" fill="${b[2]}" font-size="8.3" font-weight="700" text-anchor="middle">${l}</text>`).join('')}${i<5?`<path d="M${x+96} 79 h14" stroke="#5b4c3a" stroke-width="2.3"/><path d="M${x+108} 75 l6 4 -6 4z" fill="#5b4c3a"/>`:''}`;}).join('')}
+<text x="340" y="132" fill="#5b4c3a" font-size="8.5" text-anchor="middle" font-style="italic">Transformation happens in the staging area before the clean load</text>
+</svg><div class="dcap">Fig — ETL / Extraction flow diagram</div></div>`;
+
+D.dtree = `<div class="diagram"><svg viewBox="0 0 460 250" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+<text x="230" y="18" fill="#9a4221" font-size="11" font-weight="700" text-anchor="middle">DECISION TREE — "Play Tennis?"</text>
+<line x1="230" y1="55" x2="120" y2="115" stroke="#5b4c3a" stroke-width="2"/>
+<line x1="230" y1="55" x2="230" y2="115" stroke="#5b4c3a" stroke-width="2"/>
+<line x1="230" y1="55" x2="340" y2="115" stroke="#5b4c3a" stroke-width="2"/>
+<text x="160" y="90" fill="#5b4c3a" font-size="8">Sunny</text>
+<text x="232" y="90" fill="#5b4c3a" font-size="8">Overcast</text>
+<text x="295" y="90" fill="#5b4c3a" font-size="8">Rain</text>
+<ellipse cx="230" cy="42" rx="56" ry="20" fill="#9a4221"/><text x="230" y="46" fill="#fff" font-size="9" font-weight="700" text-anchor="middle">Outlook?</text>
+<ellipse cx="120" cy="128" rx="50" ry="19" fill="#c4762a"/><text x="120" y="132" fill="#fff" font-size="8.5" font-weight="700" text-anchor="middle">Humidity?</text>
+<rect x="195" y="112" width="70" height="32" rx="5" fill="#3f6b3a"/><text x="230" y="132" fill="#fff" font-size="9" font-weight="700" text-anchor="middle">YES</text>
+<ellipse cx="340" cy="128" rx="46" ry="19" fill="#c4762a"/><text x="340" y="132" fill="#fff" font-size="8.5" font-weight="700" text-anchor="middle">Wind?</text>
+<line x1="120" y1="147" x2="65" y2="200" stroke="#5b4c3a" stroke-width="2"/>
+<line x1="120" y1="147" x2="175" y2="200" stroke="#5b4c3a" stroke-width="2"/>
+<line x1="340" y1="147" x2="285" y2="200" stroke="#5b4c3a" stroke-width="2"/>
+<line x1="340" y1="147" x2="395" y2="200" stroke="#5b4c3a" stroke-width="2"/>
+<rect x="35" y="198" width="58" height="30" rx="5" fill="#7a2f15"/><text x="64" y="217" fill="#fff" font-size="8.5" font-weight="700" text-anchor="middle">NO</text>
+<rect x="148" y="198" width="58" height="30" rx="5" fill="#3f6b3a"/><text x="177" y="217" fill="#fff" font-size="8.5" font-weight="700" text-anchor="middle">YES</text>
+<rect x="258" y="198" width="58" height="30" rx="5" fill="#3f6b3a"/><text x="287" y="217" fill="#fff" font-size="8.5" font-weight="700" text-anchor="middle">YES</text>
+<rect x="368" y="198" width="58" height="30" rx="5" fill="#7a2f15"/><text x="397" y="217" fill="#fff" font-size="8.5" font-weight="700" text-anchor="middle">NO</text>
+<text x="230" y="245" fill="#5b4c3a" font-size="8" text-anchor="middle" font-style="italic">Internal node = attribute test · Branch = outcome · Leaf = class label</text>
+</svg><div class="dcap">Fig — Decision tree structure</div></div>`;
+
+D.confusion = `<div class="diagram"><svg viewBox="0 0 380 250" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+<text x="190" y="20" fill="#9a4221" font-size="11" font-weight="700" text-anchor="middle">CONFUSION MATRIX</text>
+<text x="200" y="42" fill="#5b4c3a" font-size="8.5" text-anchor="middle" font-weight="700">PREDICTED</text>
+<text x="35" y="135" fill="#5b4c3a" font-size="8.5" text-anchor="middle" font-weight="700" transform="rotate(-90 35 135)">ACTUAL</text>
+<text x="125" y="60" fill="#5b4c3a" font-size="8" text-anchor="middle">Positive</text>
+<text x="265" y="60" fill="#5b4c3a" font-size="8" text-anchor="middle">Negative</text>
+<text x="60" y="105" fill="#5b4c3a" font-size="8" text-anchor="middle" transform="rotate(-90 60 105)">Positive</text>
+<text x="60" y="180" fill="#5b4c3a" font-size="8" text-anchor="middle" transform="rotate(-90 60 180)">Negative</text>
+<rect x="75" y="68" width="140" height="72" fill="#3f6b3a"/><text x="145" y="100" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">TP</text><text x="145" y="118" fill="#fff" font-size="7.5" text-anchor="middle">True Positive</text>
+<rect x="215" y="68" width="140" height="72" fill="#7a2f15"/><text x="285" y="100" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">FN</text><text x="285" y="118" fill="#fff" font-size="7.5" text-anchor="middle">False Negative</text>
+<rect x="75" y="140" width="140" height="72" fill="#7a2f15"/><text x="145" y="172" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">FP</text><text x="145" y="190" fill="#fff" font-size="7.5" text-anchor="middle">False Positive</text>
+<rect x="215" y="140" width="140" height="72" fill="#3f6b3a"/><text x="285" y="172" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">TN</text><text x="285" y="190" fill="#fff" font-size="7.5" text-anchor="middle">True Negative</text>
+<text x="190" y="235" fill="#5b4c3a" font-size="8" text-anchor="middle" font-style="italic">Diagonal = correct predictions · Off-diagonal = errors</text>
+</svg><div class="dcap">Fig — Structure of a confusion matrix</div></div>`;
+
+D.svm = `<div class="diagram"><svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+<text x="200" y="20" fill="#9a4221" font-size="11" font-weight="700" text-anchor="middle">SVM — OPTIMAL HYPERPLANE</text>
+<rect x="40" y="35" width="320" height="195" fill="none" stroke="#d8c9ad" stroke-width="1.5"/>
+<line x1="70" y1="225" x2="335" y2="55" stroke="#9a4221" stroke-width="2.6"/>
+<line x1="55" y1="215" x2="320" y2="45" stroke="#b88a3a" stroke-width="1.4" stroke-dasharray="5 4"/>
+<line x1="85" y1="235" x2="350" y2="65" stroke="#b88a3a" stroke-width="1.4" stroke-dasharray="5 4"/>
+${[[95,80],[130,70],[110,110],[155,95],[175,130]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="7" fill="#4a5e74"/>`).join('')}
+${[[235,180],[270,165],[290,200],[245,210],[310,185]].map(p=>`<rect x="${p[0]-6}" y="${p[1]-6}" width="12" height="12" fill="#c4762a"/>`).join('')}
+<circle cx="155" cy="95" r="9" fill="none" stroke="#3f6b3a" stroke-width="2.5"/>
+<rect x="229" y="174" width="12" height="12" fill="none" stroke="#3f6b3a" stroke-width="2.5"/>
+<text x="245" y="95" fill="#9a4221" font-size="8.5" font-weight="700">Hyperplane</text>
+<text x="80" y="50" fill="#b88a3a" font-size="8">Margin boundary</text>
+<text x="270" y="135" fill="#3f6b3a" font-size="8" font-weight="700">Support vectors</text>
+<text x="200" y="252" fill="#5b4c3a" font-size="8" text-anchor="middle" font-style="italic">SVM maximizes the margin between the two classes</text>
+</svg><div class="dcap">Fig — SVM classification using a maximum-margin hyperplane</div></div>`;
+
+D.regression = `<div class="diagram"><svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+<text x="200" y="20" fill="#9a4221" font-size="11" font-weight="700" text-anchor="middle">SIMPLE LINEAR REGRESSION</text>
+<line x1="55" y1="230" x2="370" y2="230" stroke="#2a2017" stroke-width="2"/>
+<line x1="55" y1="230" x2="55" y2="40" stroke="#2a2017" stroke-width="2"/>
+<text x="210" y="258" fill="#5b4c3a" font-size="9" text-anchor="middle">Independent variable (X)</text>
+<text x="22" y="135" fill="#5b4c3a" font-size="9" text-anchor="middle" transform="rotate(-90 22 135)">Dependent (Y)</text>
+<line x1="70" y1="195" x2="350" y2="70" stroke="#9a4221" stroke-width="2.8"/>
+${[[95,180],[140,165],[175,135],[210,140],[250,110],[290,95],[325,82]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#4a5e74"/>`).join('')}
+<line x1="55" y1="206" x2="70" y2="206" stroke="#3f6b3a" stroke-width="3"/>
+<text x="78" y="218" fill="#3f6b3a" font-size="8" font-weight="700">a = intercept</text>
+<path d="M250 110 h40" stroke="#b88a3a" stroke-width="1.4" stroke-dasharray="3 3"/>
+<path d="M290 110 v-15" stroke="#b88a3a" stroke-width="1.4" stroke-dasharray="3 3"/>
+<text x="296" y="106" fill="#b88a3a" font-size="8" font-weight="700">slope b = Δy/Δx</text>
+<text x="280" y="62" fill="#9a4221" font-size="9" font-weight="700">Y = a + bX</text>
+<text x="200" y="270" fill="#5b4c3a" font-size="8" text-anchor="middle" font-style="italic">Best-fit line minimizes sum of squared residuals</text>
+</svg><div class="dcap">Fig — Regression line: slope &amp; intercept</div></div>`;
+
+D.kmeans = `<div class="diagram"><svg viewBox="0 0 420 230" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+<text x="210" y="18" fill="#9a4221" font-size="11" font-weight="700" text-anchor="middle">K-MEANS — 2 CLUSTERS</text>
+<line x1="45" y1="200" x2="400" y2="200" stroke="#2a2017" stroke-width="1.6"/>
+<line x1="45" y1="200" x2="45" y2="30" stroke="#2a2017" stroke-width="1.6"/>
+<circle cx="95" cy="170" r="6" fill="#4a5e74"/><circle cx="120" cy="150" r="6" fill="#4a5e74"/>
+<circle cx="80" cy="155" r="6" fill="#4a5e74"/><circle cx="135" cy="172" r="6" fill="#4a5e74"/>
+<path d="M107 162 m-32 0 a32 32 0 1 0 64 0 a32 32 0 1 0 -64 0" fill="#4a5e74" opacity="0.12"/>
+<circle cx="107" cy="162" r="8" fill="#4a5e74" stroke="#fff" stroke-width="2"/>
+<text x="107" y="166" fill="#fff" font-size="8" font-weight="700" text-anchor="middle">C1</text>
+<circle cx="300" cy="80" r="6" fill="#c4762a"/><circle cx="330" cy="65" r="6" fill="#c4762a"/>
+<circle cx="285" cy="60" r="6" fill="#c4762a"/><circle cx="345" cy="92" r="6" fill="#c4762a"/>
+<path d="M315 74 m-38 0 a38 38 0 1 0 76 0 a38 38 0 1 0 -76 0" fill="#c4762a" opacity="0.12"/>
+<circle cx="315" cy="74" r="8" fill="#c4762a" stroke="#fff" stroke-width="2"/>
+<text x="315" y="78" fill="#fff" font-size="8" font-weight="700" text-anchor="middle">C2</text>
+<text x="210" y="222" fill="#5b4c3a" font-size="8" text-anchor="middle" font-style="italic">Assign each point to nearest centroid → recompute centroid → repeat</text>
+</svg><div class="dcap">Fig — K-Means centroid-based clustering</div></div>`;
+
+D.fptree = `<div class="diagram"><svg viewBox="0 0 460 320" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+<text x="230" y="18" fill="#9a4221" font-size="11" font-weight="700" text-anchor="middle">FP-TREE  (min support = 3)</text>
+<text x="230" y="33" fill="#5b4c3a" font-size="8" text-anchor="middle">Order: S(6) Q(6) P(5) T(4) R(3)</text>
+<!-- root -->
+<rect x="195" y="44" width="70" height="26" rx="5" fill="#2a2017"/><text x="230" y="61" fill="#fff" font-size="9" text-anchor="middle" font-weight="700">root</text>
+<!-- left branch S -->
+<line x1="215" y1="70" x2="150" y2="100" stroke="#5b4c3a" stroke-width="1.8"/>
+<line x1="245" y1="70" x2="340" y2="100" stroke="#5b4c3a" stroke-width="1.8"/>
+<circle cx="150" cy="112" r="18" fill="#9a4221"/><text x="150" y="116" fill="#fff" font-size="9" text-anchor="middle" font-weight="700">S:6</text>
+<circle cx="340" cy="112" r="18" fill="#4a5e74"/><text x="340" y="116" fill="#fff" font-size="9" text-anchor="middle" font-weight="700">Q:2</text>
+<!-- S children -->
+<line x1="140" y1="128" x2="105" y2="158" stroke="#5b4c3a" stroke-width="1.8"/>
+<line x1="160" y1="128" x2="200" y2="158" stroke="#5b4c3a" stroke-width="1.8"/>
+<circle cx="105" cy="170" r="18" fill="#c4762a"/><text x="105" y="174" fill="#fff" font-size="9" text-anchor="middle" font-weight="700">Q:4</text>
+<circle cx="200" cy="170" r="18" fill="#b88a3a"/><text x="200" y="174" fill="#fff" font-size="9" text-anchor="middle" font-weight="700">P:1</text>
+<line x1="105" y1="188" x2="105" y2="212" stroke="#5b4c3a" stroke-width="1.8"/>
+<circle cx="105" cy="225" r="18" fill="#b88a3a"/><text x="105" y="229" fill="#fff" font-size="9" text-anchor="middle" font-weight="700">P:3</text>
+<line x1="105" y1="243" x2="105" y2="265" stroke="#5b4c3a" stroke-width="1.8"/>
+<circle cx="105" cy="278" r="18" fill="#7a6f3c"/><text x="105" y="282" fill="#fff" font-size="9" text-anchor="middle" font-weight="700">T:2</text>
+<line x1="118" y1="290" x2="145" y2="305" stroke="#5b4c3a" stroke-width="1.8"/>
+<circle cx="160" cy="306" r="12" fill="#7a2f15"/><text x="160" y="310" fill="#fff" font-size="8" text-anchor="middle" font-weight="700">R:1</text>
+<line x1="200" y1="188" x2="200" y2="212" stroke="#5b4c3a" stroke-width="1.8"/>
+<circle cx="200" cy="225" r="14" fill="#7a6f3c"/><text x="200" y="229" fill="#fff" font-size="8" text-anchor="middle" font-weight="700">T:1</text>
+<!-- Q:2 children -->
+<line x1="330" y1="128" x2="300" y2="158" stroke="#5b4c3a" stroke-width="1.8"/>
+<line x1="350" y1="128" x2="385" y2="158" stroke="#5b4c3a" stroke-width="1.8"/>
+<circle cx="300" cy="170" r="16" fill="#b88a3a"/><text x="300" y="174" fill="#fff" font-size="8.5" text-anchor="middle" font-weight="700">P:1</text>
+<circle cx="385" cy="170" r="14" fill="#7a2f15"/><text x="385" y="174" fill="#fff" font-size="8" text-anchor="middle" font-weight="700">R:1</text>
+<line x1="300" y1="186" x2="300" y2="208" stroke="#5b4c3a" stroke-width="1.8"/>
+<circle cx="300" cy="221" r="14" fill="#7a6f3c"/><text x="300" y="225" fill="#fff" font-size="8" text-anchor="middle" font-weight="700">T:1</text>
+<line x1="300" y1="235" x2="300" y2="256" stroke="#5b4c3a" stroke-width="1.8"/>
+<circle cx="300" cy="268" r="13" fill="#7a2f15"/><text x="300" y="272" fill="#fff" font-size="8" text-anchor="middle" font-weight="700">R:1</text>
+</svg><div class="dcap">Fig — FP-Tree built for the Group-C Q6 dataset</div></div>`;
+
+/* =========================================================
+   QUESTION BANK
+   ========================================================= */
+const QB = [];
+function q(group,num,marks,question,tags,answer){QB.push({group,num,marks,question,tags,answer});}
+
+/* ---------------- GROUP A ---------------- */
+q('gA','A1',2,'Describe a data cube.','olap warehouse cube',
+`<p>A <b>data cube</b> is a multidimensional data structure used in OLAP that represents data along several <b>dimensions</b> and stores <b>measures</b> (numeric facts) at their intersections.</p>
+<ul><li><b>Dimensions</b> — the perspectives for analysis (e.g. Time, Product, Location).</li>
+<li><b>Measures</b> — the quantities being analysed (e.g. Sales, Quantity).</li></ul>
+<p>Though called a "cube", it can have any number of dimensions (an <b>n-dimensional hypercube</b>). It lets analysts view aggregated data from many angles quickly.</p>`);
+
+q('gA','A2',2,'Explain a fact table.','warehouse schema fact',
+`<p>A <b>fact table</b> is the central table of a star/snowflake schema. It stores:</p>
+<ul><li><b>Measures</b> — quantitative, numeric business facts (sales amount, units sold).</li>
+<li><b>Foreign keys</b> — references to the surrounding dimension tables.</li></ul>
+<p>It is typically very large (millions of rows) but "narrow", and is the table queries aggregate over.</p>`);
+
+q('gA','A3',2,'Explain a dimension table.','warehouse schema dimension',
+`<p>A <b>dimension table</b> stores the <b>descriptive, contextual attributes</b> that give meaning to the facts — e.g. a Product dimension holding product name, category and brand.</p>
+<p>Dimension tables are comparatively small, often denormalized, and are used to <b>filter, group and label</b> the measures in the fact table.</p>`);
+
+q('gA','A4',2,'Explain data mining.','mining definition',
+`<p><b>Data mining</b> is the process of discovering interesting, previously unknown and potentially useful <b>patterns, correlations and knowledge</b> from large volumes of data.</p>
+<p>It sits at the intersection of <b>statistics, machine learning and database systems</b>, and includes tasks such as classification, clustering, association-rule mining and outlier detection.</p>`);
+
+q('gA','A5',2,'Explain data integration.','preprocessing integration',
+`<p><b>Data integration</b> combines data from multiple <b>heterogeneous sources</b> (databases, flat files, data cubes) into a single, coherent store.</p>
+<p>Key challenges resolved during integration:</p>
+<ul><li><b>Schema integration</b> — matching equivalent entities (entity-identification problem).</li>
+<li><b>Redundancy</b> — removing duplicated/derivable attributes (detected via correlation analysis).</li>
+<li><b>Conflict resolution</b> — reconciling different units, scales and encodings for the same value.</li></ul>`);
+
+q('gA','A6',2,'Explain discretization.','preprocessing discretization',
+`<p><b>Discretization</b> transforms <b>continuous numeric attributes into a finite set of discrete intervals (bins)</b> — e.g. converting <span class="mono">Age</span> into <i>Child / Teen / Adult / Senior</i>.</p>
+<p>It reduces the number of distinct values, makes data easier to interpret, and is required by algorithms that work only on categorical inputs. It can be <b>supervised</b> (uses class labels) or <b>unsupervised</b> (equal-width / equal-frequency binning).</p>`);
+
+q('gA','A7',2,'Name any 2 data classification algorithms.','classification',
+`<p>Two widely used classification algorithms:</p>
+<ol><li><b>Decision Tree</b> (ID3 / C4.5 / CART)</li>
+<li><b>Naïve Bayes classifier</b></li></ol>
+<p>Other examples: K-Nearest Neighbours (KNN) and Support Vector Machine (SVM).</p>`);
+
+q('gA','A8',2,'What is a decision tree?','classification tree',
+`<p>A <b>decision tree</b> is a tree-structured classification model where:</p>
+<ul><li><b>Internal nodes</b> test an attribute,</li>
+<li><b>Branches</b> represent the outcomes of that test,</li>
+<li><b>Leaf nodes</b> hold the final class label.</li></ul>
+<p>It is built top-down by recursively choosing the "best" splitting attribute using a measure such as <b>Information Gain</b> or the <b>Gini index</b>.</p>${D.dtree}`);
+
+q('gA','A9',2,'What is the Gini index?','classification gini',
+`<p>The <b>Gini index</b> measures the <b>impurity</b> of a dataset/node, used by CART decision trees.</p>
+<div class="fml">Gini(D) = 1 − Σ (pᵢ)²</div>
+<p>where pᵢ is the proportion of class <i>i</i>. A value of <b>0</b> means the node is pure (one class); higher values mean more mixed classes. The split that gives the <b>lowest weighted Gini</b> is selected.</p>`);
+
+q('gA','A10',2,'What is a frequent itemset?','association apriori frequent',
+`<p>A <b>frequent itemset</b> is a set of items that appear <b>together</b> in the transaction database with a frequency (<b>support</b>) <b>greater than or equal to a user-defined minimum support threshold</b>.</p>
+<p>Example: if <span class="mono">{Bread, Milk}</span> appears in 60% of transactions and min-support = 50%, then it is a frequent itemset.</p>`);
+
+q('gA','A11',2,'What is the K-Means algorithm?','clustering kmeans',
+`<p><b>K-Means</b> is an <b>unsupervised, partitional clustering</b> algorithm that divides data into <b>k clusters</b>. It works iteratively:</p>
+<ol class="steps"><li>Choose k initial centroids.</li><li>Assign every point to its nearest centroid.</li>
+<li>Recompute each centroid as the mean of its assigned points.</li>
+<li>Repeat steps 2–3 until centroids no longer change.</li></ol>${D.kmeans}`);
+
+q('gA','A12',2,'What is KNN?','classification knn',
+`<p><b>K-Nearest Neighbours (KNN)</b> is a <b>lazy, instance-based supervised</b> classification algorithm.</p>
+<p>To classify a new data point it finds the <b>k closest training points</b> (by a distance metric such as Euclidean distance) and assigns the class held by the <b>majority</b> of those neighbours. It builds no explicit model — all work is done at prediction time.</p>`);
+
+q('gA','A13',2,'What is Data Warehousing?','warehouse definition',
+`<p><b>Data warehousing</b> is the process of constructing and using a <b>data warehouse</b>. As defined by Inmon, a data warehouse is a:</p>
+<ul><li><b>Subject-oriented</b> — organised around major subjects (sales, customers).</li>
+<li><b>Integrated</b> — consistent data merged from many sources.</li>
+<li><b>Time-variant</b> — keeps historical data over time.</li>
+<li><b>Non-volatile</b> — data is read-only, not updated by users.</li></ul>
+<p>...collection of data that supports management <b>decision-making</b>.</p>`);
+
+q('gA','A14',2,'Explain ETL.','warehouse etl',
+`<p><b>ETL = Extract → Transform → Load</b>, the process that populates a data warehouse:</p>
+<ul><li><b>Extract</b> — read raw data from source systems (OLTP DBs, files).</li>
+<li><b>Transform</b> — clean, deduplicate, standardize, derive and integrate the data.</li>
+<li><b>Load</b> — write the prepared data into the warehouse.</li></ul>${D.etl}`);
+
+q('gA','A15',2,'Describe the Star schema.','warehouse schema star',
+`<p>The <b>star schema</b> is the simplest data-warehouse schema. A single central <b>fact table</b> is connected directly to several <b>denormalized dimension tables</b>, forming a star shape.</p>
+<p><b>Pros:</b> simple, few joins, fast queries. <b>Cons:</b> some data redundancy in dimensions.</p>${D.star}`);
+
+q('gA','A16',2,'Describe the Snowflake schema.','warehouse schema snowflake',
+`<p>The <b>snowflake schema</b> refines the star schema by <b>normalizing the dimension tables</b> into multiple related sub-tables, producing a snowflake shape.</p>
+<p><b>Pros:</b> less redundancy, saves storage. <b>Cons:</b> more joins, slower / more complex queries.</p>${D.snow}`);
+
+q('gA','A17',2,'Define data preprocessing.','preprocessing',
+`<p><b>Data preprocessing</b> covers all techniques applied to raw data <b>before mining</b> to improve data quality and results. Main steps:</p>
+<ul><li><b>Data cleaning</b> — handle missing values, smooth noise, fix inconsistencies.</li>
+<li><b>Data integration</b> — merge multiple sources.</li>
+<li><b>Data transformation</b> — normalize, aggregate, discretize.</li>
+<li><b>Data reduction</b> — reduce volume (dimensionality / numerosity reduction).</li></ul>`);
+
+q('gA','A18',2,'Explain data classification.','classification',
+`<p><b>Classification</b> is a <b>supervised learning</b> task that assigns data items to one of several <b>predefined classes</b>.</p>
+<p>It works in two phases: a <b>learning/training phase</b> builds a model from labeled training data, and a <b>classification phase</b> uses that model to predict labels for new, unseen data.</p>`);
+
+q('gA','A19',2,'What is an association rule?','association rule',
+`<p>An <b>association rule</b> is an implication of the form <b>X → Y</b>, where X and Y are disjoint itemsets. It states that transactions containing X tend to also contain Y.</p>
+<p>It is evaluated by two measures: <b>support</b> (how often X∪Y occurs) and <b>confidence</b> (how often Y appears given X). Example: <span class="mono">{Bread} → {Butter}</span>.</p>`);
+
+q('gA','A20',2,'What is the Apriori principle?','association apriori',
+`<p>The <b>Apriori principle</b> (anti-monotone property) states:</p>
+<div class="box def"><b>"All non-empty subsets of a frequent itemset must themselves be frequent."</b><br>
+Conversely — if an itemset is <b>infrequent</b>, then all of its <b>supersets are also infrequent</b>.</div>
+<p>This lets the Apriori algorithm <b>prune</b> huge numbers of candidate itemsets without counting them.</p>`);
+
+q('gA','A21',2,'What is Naïve Bayes?','classification bayes',
+`<p><b>Naïve Bayes</b> is a <b>probabilistic classifier</b> based on <b>Bayes' theorem</b>.</p>
+<div class="fml">P(C | X) = [ P(X | C) · P(C) ] / P(X)</div>
+<p>It makes the "naïve" assumption that all attributes are <b>conditionally independent</b> given the class. The class with the <b>highest posterior probability</b> is chosen as the prediction.</p>`);
+
+/* ---------------- GROUP B ---------------- */
+q('gB','B1',5,'Discuss different ways of smoothing noisy data with suitable examples.','preprocessing cleaning noise smoothing',
+`<p><b>Noisy data</b> contains random error or variance. Three main smoothing techniques:</p>
+<h5>1. Binning</h5>
+<p>Sort values, partition into equal-frequency bins, then smooth each bin.</p>
+<div class="box solve"><div class="bt">Example — data: 4, 8, 15, 21, 21, 24, 25, 28, 34</div>
+<b>Bins (depth 3):</b> [4,8,15] · [21,21,24] · [25,28,34]<br>
+<b>Smoothing by bin means:</b> [9,9,9] · [22,22,22] · [29,29,29]<br>
+<b>Smoothing by bin boundaries:</b> [4,4,15] · [21,21,24] · [25,25,34] — each value replaced by the nearest boundary.</div>
+<h5>2. Regression</h5>
+<p>Fit the data to a function (e.g. a regression line). The fitted values smooth out noise. Linear regression uses one predictor; multiple regression uses several.</p>
+<h5>3. Clustering / Outlier analysis</h5>
+<p>Group similar values into clusters; values that fall outside all clusters are treated as <b>outliers</b> and can be removed or corrected.</p>`);
+
+q('gB','B2',5,'How does KDD differ from data mining? Explain the stages of KDD with a block diagram.','kdd mining process',
+`<p><b>KDD (Knowledge Discovery in Databases)</b> is the <b>complete end-to-end process</b> of turning raw data into knowledge. <b>Data mining</b> is just <b>one step</b> within KDD — the pattern-extraction step.</p>
+${D.kdd}
+<h5>Seven stages of KDD</h5>
+<ol class="steps">
+<li><b>Data Cleaning</b> — remove noise and inconsistent data.</li>
+<li><b>Data Integration</b> — combine multiple sources.</li>
+<li><b>Data Selection</b> — retrieve the data relevant to the analysis.</li>
+<li><b>Data Transformation</b> — consolidate into forms suitable for mining (normalize, aggregate).</li>
+<li><b>Data Mining</b> — apply intelligent methods to extract patterns.</li>
+<li><b>Pattern Evaluation</b> — identify the genuinely interesting patterns.</li>
+<li><b>Knowledge Presentation</b> — visualize the mined knowledge for the user.</li></ol>`);
+
+q('gB','B3',5,'Why are OLAP operations used? Discuss various OLAP operations with examples.','olap operations',
+`<p><b>OLAP (Online Analytical Processing)</b> operations let analysts interactively explore a data cube from many perspectives to support decision-making.</p>
+<h5>Roll-up</h5><p>Aggregates data by climbing up a concept hierarchy or reducing dimensions. <i>Example: city → state → country sales totals.</i></p>
+<h5>Drill-down</h5><p>The reverse of roll-up — moves to more detailed data. <i>Example: quarterly sales → monthly sales.</i></p>
+<h5>Slice</h5><p>Selects one dimension value, producing a sub-cube. <i>Example: take only Time = "Q1".</i></p>
+<h5>Dice</h5><p>Selects values on two or more dimensions. <i>Example: Time ∈ {Q1,Q2} AND Location ∈ {Delhi, Mumbai}.</i></p>
+<h5>Pivot (Rotate)</h5><p>Rotates the cube's axes to give an alternative view of the same data.</p>`);
+
+q('gB','B4',5,'What is the Apriori principle? How is it used by the Apriori algorithm for frequent pattern mining?','association apriori frequent',
+`<p><b>Apriori principle:</b> every non-empty subset of a frequent itemset is also frequent; therefore any superset of an infrequent itemset is also infrequent.</p>
+<h5>How the Apriori algorithm uses it</h5>
+<ol class="steps">
+<li>Scan the database to find frequent <b>1-itemsets</b> (L₁).</li>
+<li><b>Join step:</b> generate candidate k-itemsets (Cₖ) by joining L₍ₖ₋₁₎ with itself.</li>
+<li><b>Prune step:</b> using the Apriori principle, immediately discard any candidate that has an <b>infrequent (k−1)-subset</b> — no counting needed.</li>
+<li>Scan the database to count support of remaining candidates; keep those ≥ min-support to form Lₖ.</li>
+<li>Repeat until no new frequent itemsets are found.</li></ol>
+<p>The prune step is what makes Apriori efficient — it avoids counting an exponential number of itemsets.</p>`);
+
+q('gB','B5',5,'What is centroid-based clustering? Why is K-Means called a centroid-based algorithm?','clustering kmeans centroid',
+`<p><b>Centroid-based clustering</b> represents each cluster by a single central point — its <b>centroid</b> (the mean of all points in the cluster). Each data point belongs to the cluster whose centroid is nearest.</p>
+<p><b>K-Means is centroid-based</b> because:</p>
+<ul><li>Each of its k clusters is defined purely by its centroid.</li>
+<li>Points are assigned to clusters by <b>minimum distance to a centroid</b>.</li>
+<li>After every iteration the centroid is <b>recomputed as the mean</b> of the cluster's members.</li></ul>
+<p>The whole algorithm revolves around centroids, hence the name.</p>${D.kmeans}`);
+
+q('gB','B6',5,'Why is data normalization important? Explain min-max and Z-score normalization.','preprocessing normalization',
+`<p><b>Normalization</b> rescales attribute values to a common range. It is important because attributes with large ranges would otherwise <b>dominate distance-based algorithms</b> (KNN, K-Means, neural nets) and bias results.</p>
+<h5>Min-Max Normalization</h5>
+<p>Linearly maps a value v into a new range [new_min, new_max]:</p>
+<div class="fml">v′ = ( v − min ) / ( max − min ) · (new_max − new_min) + new_min</div>
+<div class="box solve"><div class="bt">Example</div>Income range 12,000–98,000; map 73,600 to [0,1]:<br>
+v′ = (73600 − 12000) / (98000 − 12000) = 61600 / 86000 = <b>0.716</b></div>
+<h5>Z-Score (Zero-Mean) Normalization</h5>
+<p>Uses the mean (μ) and standard deviation (σ):</p>
+<div class="fml">v′ = ( v − μ ) / σ</div>
+<p>Useful when the actual min/max are unknown or outliers are present. Result has mean 0 and standard deviation 1.</p>`);
+
+q('gB','B7',5,'What is a confusion matrix? Explain its importance in measuring classifier performance.','classification confusion evaluation',
+`<p>A <b>confusion matrix</b> is a table comparing a classifier's <b>predicted</b> labels against the <b>actual</b> labels.</p>
+${D.confusion}
+<p>For a binary problem it records four values: <b>TP, TN, FP, FN</b>.</p>
+<h5>Importance</h5>
+<ul><li>It shows <b>where</b> errors happen — which classes are confused.</li>
+<li>It is the basis for all key metrics:</li></ul>
+<div class="fml">Accuracy = (TP+TN) / (TP+TN+FP+FN)
+Precision = TP / (TP+FP)
+Recall = TP / (TP+FN)
+F1 = 2·(Precision·Recall)/(Precision+Recall)</div>
+<p>Accuracy alone can be misleading for imbalanced data, so the confusion matrix gives a fuller, per-class picture.</p>`);
+
+q('gB','B8',5,'Discuss the ETL process in detail.','warehouse etl',
+`<p><b>ETL</b> moves data from operational sources into the data warehouse in three phases.</p>${D.etl}
+<h5>1. Extract</h5><p>Data is read from heterogeneous sources — relational OLTP databases, flat files, APIs, legacy systems. Extraction can be <b>full</b> (all data) or <b>incremental</b> (only changes).</p>
+<h5>2. Transform</h5><p>The most complex phase, performed in a <b>staging area</b>:</p>
+<ul><li>Cleaning — fix missing/incorrect values.</li>
+<li>Standardization — uniform formats, units, codes.</li>
+<li>De-duplication and integration of records.</li>
+<li>Deriving new fields and applying business rules.</li>
+<li>Aggregation and summarization.</li></ul>
+<h5>3. Load</h5><p>The transformed data is written into the warehouse — an <b>initial bulk load</b> followed by periodic <b>refresh/incremental loads</b>.</p>`);
+
+q('gB','B9',5,'Describe OLAP operations with examples.','olap operations',
+`<p>OLAP operations on a data cube. Consider a cube with dimensions <i>Time, Location, Product</i> and measure <i>Sales</i>.</p>
+<table class="dt"><tr><th>Operation</th><th>What it does</th><th>Example</th></tr>
+<tr><td>Roll-up</td><td>Aggregate up a hierarchy</td><td>City sales → Country sales</td></tr>
+<tr><td>Drill-down</td><td>Go to finer detail</td><td>Yearly → Quarterly → Monthly</td></tr>
+<tr><td>Slice</td><td>Fix one dimension</td><td>Sales where Time = Q1</td></tr>
+<tr><td>Dice</td><td>Fix 2+ dimensions</td><td>Time∈{Q1,Q2}, Loc∈{Delhi,Kolkata}</td></tr>
+<tr><td>Pivot</td><td>Rotate the view</td><td>Swap rows/columns of report</td></tr></table>
+<p>These operations make multidimensional analysis fast and intuitive for decision-makers.</p>`);
+
+q('gB','B10',5,'What is a frequent pattern? What is market basket analysis? Explain with examples.','association frequent market-basket',
+`<p>A <b>frequent pattern</b> is a pattern (itemset, subsequence, substructure) that appears in a dataset with frequency ≥ a minimum threshold.</p>
+<h5>Market Basket Analysis (MBA)</h5>
+<p>MBA is a classic application of frequent-pattern mining used by retailers. It analyses customers' <b>"baskets"</b> (transactions) to discover which products are <b>bought together</b>.</p>
+<div class="box solve"><div class="bt">Example</div>
+If analysis shows the rule <span class="mono">{Diaper} → {Beer}</span> with high support &amp; confidence, the store can:
+<ul><li>Place beer and diapers near each other,</li><li>Bundle them in a promotion,</li><li>Plan cross-selling and shelf layout.</li></ul></div>
+<p>Such rules are mined using algorithms like <b>Apriori</b> or <b>FP-Growth</b>.</p>`);
+
+q('gB','B11',5,'Perform one iteration of K-Means. Points (1,1),(2,2),(8,8),(9,9); initial centroids (1,1) and (9,9).','clustering kmeans numeric',
+`<p><b>Given:</b> C1 = (1,1), C2 = (9,9). Use Euclidean distance.</p>
+<h5>Step 1 — Assign each point to nearest centroid</h5>
+<table class="dt"><tr><th>Point</th><th>Dist to C1(1,1)</th><th>Dist to C2(9,9)</th><th>Cluster</th></tr>
+<tr><td>(1,1)</td><td>0</td><td>√128 ≈ 11.31</td><td class="hl">C1</td></tr>
+<tr><td>(2,2)</td><td>√2 ≈ 1.41</td><td>√98 ≈ 9.90</td><td class="hl">C1</td></tr>
+<tr><td>(8,8)</td><td>√98 ≈ 9.90</td><td>√2 ≈ 1.41</td><td class="hl">C2</td></tr>
+<tr><td>(9,9)</td><td>√128 ≈ 11.31</td><td>0</td><td class="hl">C2</td></tr></table>
+<h5>Step 2 — Recompute centroids</h5>
+<div class="box solve">
+<b>Cluster 1</b> = {(1,1),(2,2)} → new centroid = ( (1+2)/2 , (1+2)/2 ) = <b>(1.5, 1.5)</b><br>
+<b>Cluster 2</b> = {(8,8),(9,9)} → new centroid = ( (8+9)/2 , (8+9)/2 ) = <b>(8.5, 8.5)</b></div>
+<span class="ans-final">After 1 iteration: C1 = (1.5, 1.5), C2 = (8.5, 8.5)</span>`);
+
+q('gB','B12',5,'What is clustering? How does it differ from supervised classification? What is DBSCAN?','clustering dbscan classification',
+`<p><b>Clustering</b> is an <b>unsupervised</b> technique that groups data so that items in the same group are similar and items in different groups are dissimilar — <b>no class labels</b> are used.</p>
+<h5>Clustering vs Classification</h5>
+<table class="dt"><tr><th>Clustering</th><th>Classification</th></tr>
+<tr><td>Unsupervised</td><td>Supervised</td></tr>
+<tr><td>No predefined labels</td><td>Predefined class labels</td></tr>
+<tr><td>Discovers natural groups</td><td>Predicts a known class</td></tr>
+<tr><td>e.g. K-Means, DBSCAN</td><td>e.g. Decision Tree, KNN</td></tr></table>
+<h5>DBSCAN</h5>
+<p><b>DBSCAN</b> (Density-Based Spatial Clustering of Applications with Noise) forms clusters from <b>dense regions</b>. It uses two parameters — <b>ε (radius)</b> and <b>MinPts</b> — and classifies points as <b>core, border or noise</b> points. Advantages: finds arbitrarily-shaped clusters, handles outliers, and needs no preset number of clusters.</p>`);
+
+q('gB','B13',5,'Compute Accuracy, Precision and Recall from the confusion matrix: TP=40, FN=10, FP=5, TN=45.','classification confusion numeric evaluation',
+`<p><b>Given:</b> TP = 40, FN = 10, FP = 5, TN = 45. Total = 100.</p>
+${D.confusion}
+<div class="box solve"><div class="bt">Calculations</div>
+<b>Accuracy</b> = (TP+TN)/Total = (40+45)/100 = 85/100 = <b>0.85 = 85%</b><br><br>
+<b>Precision</b> = TP/(TP+FP) = 40/(40+5) = 40/45 ≈ <b>0.889 = 88.9%</b><br><br>
+<b>Recall</b> = TP/(TP+FN) = 40/(40+10) = 40/50 = <b>0.80 = 80%</b></div>
+<span class="ans-final">Accuracy 85% · Precision 88.9% · Recall 80%</span>
+<p style="margin-top:8px">F1-score = 2·(0.889·0.80)/(0.889+0.80) ≈ <b>0.842</b>.</p>`);
+
+q('gB','B14',5,'Differentiate between OLAP and OLTP.','olap oltp warehouse',
+`<table class="dt"><tr><th>Feature</th><th>OLTP</th><th>OLAP</th></tr>
+<tr><td>Purpose</td><td>Day-to-day operations</td><td>Analysis &amp; decision support</td></tr>
+<tr><td>Data</td><td>Current, detailed</td><td>Historical, summarized</td></tr>
+<tr><td>Operations</td><td>Insert / Update / Delete</td><td>Mostly complex reads</td></tr>
+<tr><td>Design</td><td>Normalized (ER)</td><td>De-normalized (star/snowflake)</td></tr>
+<tr><td>Users</td><td>Clerks, operators</td><td>Analysts, managers</td></tr>
+<tr><td>Records / query</td><td>Few (tens)</td><td>Millions</td></tr>
+<tr><td>Response</td><td>Milliseconds</td><td>Seconds to minutes</td></tr>
+<tr><td>Example</td><td>ATM transaction</td><td>Quarterly sales trend</td></tr></table>
+<p><b>OLTP</b> = Online Transaction Processing (the source systems); <b>OLAP</b> = Online Analytical Processing (the warehouse side).</p>`);
+
+q('gB','B15',5,'Write down the stages of KDD.','kdd process',
+`<p>The <b>Knowledge Discovery in Databases (KDD)</b> process has 7 stages:</p>
+<ol class="steps">
+<li><b>Data Cleaning</b> — remove noise &amp; inconsistencies.</li>
+<li><b>Data Integration</b> — combine multiple data sources.</li>
+<li><b>Data Selection</b> — pick data relevant to the task.</li>
+<li><b>Data Transformation</b> — transform into mining-ready forms.</li>
+<li><b>Data Mining</b> — apply algorithms to extract patterns.</li>
+<li><b>Pattern Evaluation</b> — find truly interesting patterns.</li>
+<li><b>Knowledge Presentation</b> — visualize and present knowledge.</li></ol>${D.kdd}`);
+
+q('gB','B16',5,'Draw and explain the flow diagram of the extraction method.','warehouse etl extraction',
+`<p>The <b>extraction</b> stage moves source data into the staging area before transformation and loading.</p>${D.etl}
+<p><b>Flow explained:</b></p>
+<ol class="steps">
+<li><b>Identify sources</b> — OLTP databases, flat files, external/ERP systems.</li>
+<li><b>Extract</b> — copy raw data; either a <b>full extract</b> or an <b>incremental extract</b> (only changed rows, using timestamps or change-data-capture).</li>
+<li><b>Staging area</b> — extracted data lands here for cleaning, deduplication and merging without touching the live warehouse.</li>
+<li><b>Transform &amp; Load</b> — cleaned data is transformed and loaded into the warehouse for OLAP/analysis.</li></ol>`);
+
+q('gB','B17',5,'Draw and explain the architecture of a data warehouse.','warehouse architecture',
+`<p>A data warehouse typically uses a <b>three-tier architecture</b>.</p>${D.dwarch}
+<h5>Bottom Tier — Warehouse Database Server</h5>
+<p>A relational database that holds the warehouse data. Data is fed in by <b>ETL / back-end tools</b> from operational databases, files and external sources. <b>Data marts</b> (subject-specific subsets) and <b>metadata</b> live here.</p>
+<h5>Middle Tier — OLAP Server</h5>
+<p>Presents a multidimensional view of the data. Can be <b>ROLAP</b> (relational) or <b>MOLAP</b> (multidimensional cube) based.</p>
+<h5>Top Tier — Front-End Tools</h5>
+<p>Client tools for <b>querying, reporting, analysis and data mining</b> used by analysts and managers.</p>`);
+
+q('gB','B18',5,'Explain the classification method with an example.','classification example',
+`<p><b>Classification</b> predicts categorical class labels in two phases.</p>
+<h5>Phase 1 — Learning (Training)</h5>
+<p>A classification algorithm analyses a <b>labeled training set</b> and builds a model (e.g. classification rules, a decision tree).</p>
+<h5>Phase 2 — Classification (Testing)</h5>
+<p>The model is first checked on a <b>test set</b> for accuracy, then used to label <b>new, unseen data</b>.</p>
+<div class="box solve"><div class="bt">Example — Loan approval</div>
+Training data of past applicants (income, credit score, age → "Approved/Rejected") is used to learn a decision tree. A new applicant's details are passed through the tree, which predicts <b>"Approved"</b> or <b>"Rejected"</b>.</div>${D.dtree}`);
+
+/* ---------------- GROUP C ---------------- */
+q('gC','C1',10,'(a) Explain the working of KNN. (b) For k=3, predict the result of test instance (7.6, 60, 8).','classification knn numeric',
+`<h5>(a) Working principle of KNN</h5>
+<ol class="steps"><li>Choose the value of <b>k</b>.</li>
+<li>Compute the <b>distance</b> from the test point to every training point (Euclidean is common).</li>
+<li>Select the <b>k nearest</b> training points.</li>
+<li>Assign the class held by the <b>majority</b> of those k neighbours.</li></ol>
+<p>KNN is a <b>lazy learner</b> — it stores all training data and only computes at prediction time.</p>
+<h5>(b) Predict result for (7.6, 60, 8), k = 3</h5>
+<p>Euclidean distance d = √[(CGPA)² + (Assessment)² + (Project)²]:</p>
+<table class="dt"><tr><th>#</th><th>Instance</th><th>Distance to (7.6,60,8)</th><th>Result</th></tr>
+<tr><td>1</td><td>(9.2,85,8)</td><td>√627.56 ≈ 25.05</td><td>Pass</td></tr>
+<tr><td>2</td><td>(8,80,7)</td><td>√401.16 ≈ 20.03</td><td>Pass</td></tr>
+<tr><td>3</td><td>(8.5,81,8)</td><td>√441.81 ≈ 21.02</td><td>Pass</td></tr>
+<tr><td>4</td><td>(6,45,5)</td><td>√236.56 ≈ 15.38</td><td class="hl">Fail</td></tr>
+<tr><td>5</td><td>(6.5,50,4)</td><td>√117.21 ≈ 10.83</td><td class="hl">Fail</td></tr>
+<tr><td>6</td><td>(8.2,72,7)</td><td>√145.36 ≈ 12.06</td><td class="hl">Pass</td></tr>
+<tr><td>7</td><td>(5.8,38,5)</td><td>√496.24 ≈ 22.28</td><td>Fail</td></tr>
+<tr><td>8</td><td>(8.9,91,9)</td><td>√963.69 ≈ 31.04</td><td>Pass</td></tr></table>
+<div class="box solve"><div class="bt">3 nearest neighbours</div>
+#5 (10.83 → Fail), #6 (12.06 → Pass), #4 (15.38 → Fail)<br>
+Votes: <b>Fail = 2</b>, Pass = 1 → majority is Fail.</div>
+<span class="ans-final">Predicted Result = FAIL</span>`);
+
+q('gC','C2',10,'(a) Define Support &amp; Confidence. (b) Generate rules using Apriori on the 5-transaction dataset (min-sup 50%, min-conf 75%).','association apriori numeric',
+`<h5>(a) Support &amp; Confidence</h5>
+<div class="fml">Support(X→Y) = (transactions containing X∪Y) / (total transactions)
+Confidence(X→Y) = Support(X∪Y) / Support(X)</div>
+<p><b>Support</b> = how frequently the itemset occurs. <b>Confidence</b> = how reliable the rule is (conditional probability of Y given X).</p>
+<h5>(b) Apriori — min-support 50% (≥3 of 5 txns), min-confidence 75%</h5>
+<p>Transactions: T1 Bread,Cheese,Egg,Juice · T2 Bread,Cheese,Juice · T3 Bread,Milk,Yogurt · T4 Bread,Juice,Milk · T5 Cheese,Juice,Milk</p>
+<table class="dt"><tr><th>Item</th><th>Count</th><th>Frequent?</th></tr>
+<tr><td>Bread</td><td>4</td><td class="hl">Yes</td></tr><tr><td>Cheese</td><td>3</td><td class="hl">Yes</td></tr>
+<tr><td>Egg</td><td>1</td><td>No</td></tr><tr><td>Juice</td><td>4</td><td class="hl">Yes</td></tr>
+<tr><td>Milk</td><td>3</td><td class="hl">Yes</td></tr><tr><td>Yogurt</td><td>1</td><td>No</td></tr></table>
+<p><b>L1</b> = {Bread, Cheese, Juice, Milk}</p>
+<table class="dt"><tr><th>2-itemset</th><th>Count</th><th>Frequent?</th></tr>
+<tr><td>{Bread,Cheese}</td><td>2</td><td>No</td></tr>
+<tr><td>{Bread,Juice}</td><td>3</td><td class="hl">Yes</td></tr>
+<tr><td>{Bread,Milk}</td><td>2</td><td>No</td></tr>
+<tr><td>{Cheese,Juice}</td><td>3</td><td class="hl">Yes</td></tr>
+<tr><td>{Cheese,Milk}</td><td>1</td><td>No</td></tr>
+<tr><td>{Juice,Milk}</td><td>2</td><td>No</td></tr></table>
+<p><b>L2</b> = {Bread,Juice}(3), {Cheese,Juice}(3). No 3-itemset survives (subset {Bread,Cheese} infrequent).</p>
+<h5>Rule generation (confidence ≥ 75%)</h5>
+<table class="dt"><tr><th>Rule</th><th>Confidence</th><th>Accepted?</th></tr>
+<tr><td>Bread → Juice</td><td>3/4 = 75%</td><td class="hl">Yes</td></tr>
+<tr><td>Juice → Bread</td><td>3/4 = 75%</td><td class="hl">Yes</td></tr>
+<tr><td>Cheese → Juice</td><td>3/3 = 100%</td><td class="hl">Yes</td></tr>
+<tr><td>Juice → Cheese</td><td>3/4 = 75%</td><td class="hl">Yes</td></tr></table>
+<span class="ans-final">All 4 rules satisfy min-confidence — strong rules generated.</span>`);
+
+q('gC','C3',10,'(a) Describe the Naïve Bayes classifier. (b) Classify Confident=Yes, Sick=No.','classification bayes numeric',
+`<h5>(a) Naïve Bayes classifier</h5>
+<p>A probabilistic classifier using <b>Bayes' theorem</b> with the assumption that attributes are <b>conditionally independent</b> given the class:</p>
+<div class="fml">P(C|X) ∝ P(C) · Π P(xᵢ | C)</div>
+<p>It computes the posterior for every class and picks the class with the maximum value (MAP hypothesis).</p>
+<h5>(b) Classify X = {Confident=Yes, Sick=No}</h5>
+<p>Dataset of 5 rows → Pass = 3 (rows 2,4,5), Fail = 2 (rows 1,3).</p>
+<p>Priors: P(Pass) = 3/5, P(Fail) = 2/5</p>
+<div class="box solve"><div class="bt">For class = Pass</div>
+P(Confident=Yes | Pass) = 2/3 &nbsp;&nbsp; P(Sick=No | Pass) = 1/3<br>
+P(Pass|X) ∝ 3/5 × 2/3 × 1/3 = <b>6/45 = 0.1333</b></div>
+<div class="box solve"><div class="bt">For class = Fail</div>
+P(Confident=Yes | Fail) = 1/2 &nbsp;&nbsp; P(Sick=No | Fail) = 1/2<br>
+P(Fail|X) ∝ 2/5 × 1/2 × 1/2 = <b>2/20 = 0.10</b></div>
+<p>0.1333 (Pass) &gt; 0.10 (Fail)</p>
+<span class="ans-final">Predicted Result = PASS</span>`);
+
+q('gC','C4',10,'(a) Distinguish supervised, semi-supervised &amp; unsupervised learning. (b) Classification with hyperplanes in SVM.','classification svm learning',
+`<h5>(a) Three learning paradigms</h5>
+<table class="dt"><tr><th>Type</th><th>Training data</th><th>Goal / Example</th></tr>
+<tr><td>Supervised</td><td>Fully labeled</td><td>Predict label — classification, regression</td></tr>
+<tr><td>Semi-supervised</td><td>Small labeled + large unlabeled</td><td>Use cheap unlabeled data to boost a model</td></tr>
+<tr><td>Unsupervised</td><td>No labels</td><td>Find structure — clustering, association</td></tr></table>
+<h5>(b) Classification using hyperplanes in SVM</h5>
+<p><b>Support Vector Machine</b> separates two classes by finding the <b>optimal hyperplane</b> — the decision boundary that <b>maximizes the margin</b> (distance) between the classes.</p>
+<ul><li>The closest training points to the hyperplane are the <b>support vectors</b> — they alone define the boundary.</li>
+<li>The <b>margin</b> is the gap between the two parallel margin-boundary lines; SVM maximizes it for best generalization.</li>
+<li>For non-linearly-separable data, the <b>kernel trick</b> maps data to a higher dimension where a linear hyperplane works.</li></ul>${D.svm}`);
+
+q('gC','C5',10,'(a) Explain KNN. (b) For k=5, predict the result of test instance (6.1, 40, 5).','classification knn numeric',
+`<h5>(a) KNN algorithm</h5>
+<p>KNN classifies a new point by majority vote of its <b>k nearest training neighbours</b>, measured by a distance metric (Euclidean). It is a lazy, instance-based learner. Choosing k: too small → noise-sensitive; too large → over-smoothed; often an odd value avoids ties.</p>
+<h5>(b) Predict result for (6.1, 40, 5), k = 5</h5>
+<table class="dt"><tr><th>#</th><th>Instance</th><th>Distance to (6.1,40,5)</th><th>Result</th></tr>
+<tr><td>1</td><td>(9.2,85,8)</td><td>√2043.61 ≈ 45.21</td><td>Pass</td></tr>
+<tr><td>2</td><td>(8,80,7)</td><td>√1607.61 ≈ 40.10</td><td class="hl">Pass</td></tr>
+<tr><td>3</td><td>(8.5,81,8)</td><td>√1695.76 ≈ 41.18</td><td>Pass</td></tr>
+<tr><td>4</td><td>(6,45,5)</td><td>√25.01 ≈ 5.00</td><td class="hl">Fail</td></tr>
+<tr><td>5</td><td>(6.5,50,4)</td><td>√101.16 ≈ 10.06</td><td class="hl">Fail</td></tr>
+<tr><td>6</td><td>(8.2,72,7)</td><td>√1032.41 ≈ 32.13</td><td class="hl">Pass</td></tr>
+<tr><td>7</td><td>(5.8,38,5)</td><td>√4.09 ≈ 2.02</td><td class="hl">Fail</td></tr>
+<tr><td>8</td><td>(8.9,91,9)</td><td>√2624.84 ≈ 51.23</td><td>Pass</td></tr></table>
+<div class="box solve"><div class="bt">5 nearest neighbours</div>
+#7 (2.02 Fail), #4 (5.00 Fail), #5 (10.06 Fail), #6 (32.13 Pass), #2 (40.10 Pass)<br>
+Votes: <b>Fail = 3</b>, Pass = 2 → majority Fail.</div>
+<span class="ans-final">Predicted Result = FAIL</span>`);
+
+q('gC','C6',10,'(a) Define Support &amp; Confidence. (b) Generate the FP-Tree for the 9-transaction dataset (min support = 3).','association fp-tree numeric',
+`<h5>(a) Support &amp; Confidence</h5>
+<p><b>Support</b> = fraction of transactions containing an itemset. <b>Confidence</b> of X→Y = Support(X∪Y)/Support(X), the reliability of the rule.</p>
+<h5>(b) FP-Tree, min support = 3</h5>
+<p><b>Step 1 — count items &amp; keep frequent ones:</b></p>
+<table class="dt"><tr><th>Item</th><th>S</th><th>Q</th><th>P</th><th>T</th><th>R</th><th>U</th></tr>
+<tr><td>Count</td><td>6</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td></tr>
+<tr><td>Frequent?</td><td class="hl">Y</td><td class="hl">Y</td><td class="hl">Y</td><td class="hl">Y</td><td class="hl">Y</td><td>N</td></tr></table>
+<p><b>Order (descending support):</b> S, Q, P, T, R &nbsp;(U dropped).</p>
+<p><b>Step 2 — reorder each transaction</b> keeping only frequent items in that order:</p>
+<table class="dt"><tr><th>TID</th><th>Ordered frequent items</th></tr>
+<tr><td>1</td><td>S, Q</td></tr><tr><td>2</td><td>S, Q, P, T, R</td></tr>
+<tr><td>3</td><td>S</td></tr><tr><td>4</td><td>S, P, T</td></tr>
+<tr><td>5</td><td>Q, P, T, R</td></tr><tr><td>6</td><td>S, Q, P, T</td></tr>
+<tr><td>7</td><td>S, Q, P</td></tr><tr><td>8</td><td>Q, R</td></tr><tr><td>9</td><td>— (empty)</td></tr></table>
+<p><b>Step 3 — insert transactions into the FP-Tree</b> (shared prefixes increment counts):</p>${D.fptree}
+<span class="ans-final">FP-Tree built — two main branches under root (S:6 and Q:2).</span>`);
+
+q('gC','C7',10,'(a) What are dependent &amp; independent variables? (b) Generate the linear regression equation for the 15-student dataset.','regression numeric statistics',
+`<h5>(a) Dependent vs Independent variable</h5>
+<ul><li><b>Independent variable (X)</b> — the input/predictor; assumed to cause change. Here: <i>Internal marks</i>.</li>
+<li><b>Dependent variable (Y)</b> — the output/response; its value depends on X. Here: <i>External marks</i>.</li></ul>
+<h5>(b) Linear regression — Y = a + bX</h5>
+<p>n = 15. Summations computed from the table:</p>
+<div class="box solve"><div class="bt">Required sums</div>
+ΣX = 299 &nbsp; ΣY = 852 &nbsp; ΣXY = 17413 &nbsp; ΣX² = 6187</div>
+<div class="fml">b = (nΣXY − ΣX·ΣY) / (nΣX² − (ΣX)²)
+b = (15·17413 − 299·852) / (15·6187 − 299²)
+b = (261195 − 254748) / (92805 − 89401)
+b = 6447 / 3404 ≈ 1.894</div>
+<div class="fml">a = (ΣY − b·ΣX) / n
+a = (852 − 1.894·299) / 15
+a = (852 − 566.31) / 15 ≈ 19.05</div>
+<span class="ans-final">Regression equation:&nbsp; Y = 19.05 + 1.894 X</span>
+<p style="margin-top:8px">The positive slope confirms the professor's belief: higher internal marks predict higher external marks.</p>${D.regression}`);
+
+q('gC','C8',10,'(a) Define Simple Linear Regression with a graph (slope &amp; intercept). (b) Explain Multiple Linear Regression with an example.','regression statistics',
+`<h5>(a) Simple Linear Regression</h5>
+<p>Models the relationship between <b>one independent variable X</b> and <b>one dependent variable Y</b> as a straight line:</p>
+<div class="fml">Y = a + bX</div>
+<ul><li><b>a (intercept)</b> — the value of Y when X = 0; where the line crosses the Y-axis.</li>
+<li><b>b (slope)</b> — change in Y per unit change in X (Δy/Δx); the line's steepness.</li></ul>
+<p>The "best-fit" line is found by the <b>least-squares method</b>, minimizing the sum of squared residuals.</p>${D.regression}
+<h5>(b) Multiple Linear Regression</h5>
+<p>Extends regression to <b>two or more independent variables</b>:</p>
+<div class="fml">Y = a + b₁X₁ + b₂X₂ + … + bₙXₙ</div>
+<div class="box solve"><div class="bt">Example — House price prediction</div>
+Y = Price; X₁ = area (sq.ft), X₂ = number of bedrooms, X₃ = age of house.<br>
+A fitted model might be: Price = 5,00,000 + 1500·X₁ + 2,00,000·X₂ − 10,000·X₃ — each coefficient shows that variable's individual effect on price.</div>`);
+
+q('gC','C9',10,'Explain support count, confidence, support, frequent itemset and association rule using the 5-transaction dataset.','association concepts numeric',
+`<p>Dataset (5 transactions): T1 Bread,Milk · T2 Bread,Diaper,Biscuit,Egg · T3 Milk,Diaper,Biscuit,Coke · T4 Bread,Milk,Diaper,Biscuit · T5 Bread,Milk,Diaper,Coke</p>
+<h5>Support Count</h5>
+<p>The <b>number of transactions</b> containing an itemset. e.g. <span class="mono">{Bread,Milk}</span> appears in T1,T4,T5 → <b>support count = 3</b>.</p>
+<h5>Support</h5>
+<p>Support count divided by total transactions: Support{Bread,Milk} = 3/5 = <b>0.6 (60%)</b>.</p>
+<h5>Frequent Itemset</h5>
+<p>An itemset whose support ≥ min-support. With min-support 50%: counts — Bread=4, Milk=4, Diaper=4, Biscuit=3, Coke=2, Egg=1. <b>Frequent 1-itemsets:</b> {Bread},{Milk},{Diaper},{Biscuit}.</p>
+<h5>Confidence</h5>
+<p>For rule X→Y: Confidence = Support(X∪Y)/Support(X).</p>
+<div class="box solve"><div class="bt">Example rule: {Diaper} → {Biscuit}</div>
+Support{Diaper,Biscuit} = T2,T3,T4 = 3/5 = 0.6<br>
+Support{Diaper} = 4/5 = 0.8<br>
+Confidence = 0.6 / 0.8 = <b>0.75 (75%)</b></div>
+<h5>Association Rule</h5>
+<p>An implication X→Y satisfying min-support and min-confidence. <span class="mono">{Diaper} → {Biscuit}</span> (support 60%, confidence 75%) is a valid <b>strong association rule</b>.</p>`);
+
+q('gC','C10',10,'Apriori on the 4-transaction dataset: compute support for 2 &amp; 3-itemsets and confidence (min-sup 50%, conf 70%).','association apriori numeric',
+`<p>Transactions: T100{1,3,4} · T200{2,3,5} · T300{1,2,3,5} · T400{2,5}. Min-support 50% → count ≥ 2.</p>
+<h5>1-itemsets (L1)</h5>
+<table class="dt"><tr><th>Item</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+<tr><td>Count</td><td>2</td><td>3</td><td>3</td><td>1</td><td>3</td></tr>
+<tr><td>Frequent?</td><td class="hl">Y</td><td class="hl">Y</td><td class="hl">Y</td><td>N</td><td class="hl">Y</td></tr></table>
+<h5>2-itemset support</h5>
+<table class="dt"><tr><th>Itemset</th><th>Support count</th><th>Frequent?</th></tr>
+<tr><td>{1,3}</td><td>2</td><td class="hl">Yes</td></tr>
+<tr><td>{1,5}</td><td>1</td><td>No</td></tr>
+<tr><td>{2,3}</td><td>2</td><td class="hl">Yes</td></tr>
+<tr><td>{2,5}</td><td>3</td><td class="hl">Yes</td></tr>
+<tr><td>{3,5}</td><td>2</td><td class="hl">Yes</td></tr>
+<tr><td>{1,2}</td><td>1</td><td>No</td></tr></table>
+<h5>3-itemset support</h5>
+<p>Candidate from frequent 2-itemsets: <b>{2,3,5}</b> → present in T200, T300 → <b>support count = 2</b> (frequent).</p>
+<h5>Confidence (threshold 70%) for {2,3,5}</h5>
+<table class="dt"><tr><th>Rule</th><th>Confidence</th><th>Accepted?</th></tr>
+<tr><td>{2,3} → 5</td><td>2/2 = 100%</td><td class="hl">Yes</td></tr>
+<tr><td>{3,5} → 2</td><td>2/2 = 100%</td><td class="hl">Yes</td></tr>
+<tr><td>{2,5} → 3</td><td>2/3 = 66.7%</td><td>No</td></tr>
+<tr><td>2 → {3,5}</td><td>2/3 = 66.7%</td><td>No</td></tr>
+<tr><td>3 → {2,5}</td><td>2/3 = 66.7%</td><td>No</td></tr>
+<tr><td>5 → {2,3}</td><td>2/3 = 66.7%</td><td>No</td></tr></table>
+<span class="ans-final">Strong rules: {2,3}→5 and {3,5}→2 (confidence 100%).</span>`);
+
+q('gC','C11',10,'For the Height/Weight dataset, demonstrate clustering / distance computation.','clustering numeric distance',
+`<p>Dataset of 7 points (Height, Weight): (185,72), (170,56), (168,60), (179,68), (182,72), (188,77), (180,71).</p>
+<h5>Euclidean distance between points</h5>
+<div class="fml">d = √[ (h₁−h₂)² + (w₁−w₂)² ]</div>
+<div class="box solve"><div class="bt">Sample distances from point P1 (185,72)</div>
+P1→P2: √[(185−170)²+(72−56)²] = √(225+256) = √481 ≈ <b>21.93</b><br>
+P1→P4: √[(185−179)²+(72−68)²] = √(36+16) = √52 ≈ <b>7.21</b><br>
+P1→P5: √[(185−182)²+(72−72)²] = √9 = <b>3.00</b><br>
+P1→P6: √[(185−188)²+(72−77)²] = √(9+25) = √34 ≈ <b>5.83</b></div>
+<h5>Clustering interpretation</h5>
+<p>Points with small mutual distances group together. The "tall &amp; heavy" points — P1(185,72), P5(182,72), P6(188,77), P7(180,71), P4(179,68) — form one dense cluster, while the shorter/lighter points P2(170,56), P3(168,60) form a second cluster.</p>
+<table class="dt"><tr><th>Cluster</th><th>Members</th><th>Approx centroid</th></tr>
+<tr><td>C1 (tall)</td><td>P1,P4,P5,P6,P7</td><td>(182.8, 72.0)</td></tr>
+<tr><td>C2 (short)</td><td>P2,P3</td><td>(169.0, 58.0)</td></tr></table>
+<h5>Advantages of clustering</h5>
+<ul><li>Discovers natural groupings without labeled data.</li>
+<li>Useful for customer segmentation, anomaly detection, image compression.</li>
+<li>Acts as a pre-processing step and data-reduction technique.</li></ul>${D.kmeans}`);
+
+q('gC','C12',10,'Euclidean distance for K-Means, Naïve Bayes P(Yellow|Mango), and data mining vs Business Intelligence.','clustering bayes numeric',
+`<h5>Part 1 — Euclidean distance (Height/Weight, rows 1 &amp; 4)</h5>
+<p>Row 1 = (185,72), Row 4 = (179,68).</p>
+<div class="fml">d = √[(185−179)² + (72−68)²] = √(36 + 16) = √52 ≈ 7.21</div>
+<p>In K-Means this distance decides which cluster a point joins — a point is assigned to the centroid with the smallest such distance. Two clusters emerge by repeatedly assigning points to the nearer centroid and updating centroids.</p>
+<h5>Part 2 — Naïve Bayes: P(Yellow | Mango)</h5>
+<p>From the fruit table: Mango → Yellow = 350, Mango total = 650.</p>
+<div class="fml">P(Yellow | Mango) = 350 / 650 ≈ 0.538 (53.8%)</div>
+<p>This conditional probability is one factor used by Naïve Bayes to classify a fruit given its features (Yellow, Sweet, Long).</p>
+<span class="ans-final">P(Yellow | Mango) = 0.538</span>
+<h5>Part 3 — Data Mining &amp; Business Intelligence</h5>
+<p><b>Business Intelligence (BI)</b> is the broad set of strategies, tools and technologies that turn raw data into actionable insight for decision-making.</p>
+<p><b>Data mining is a core component of BI</b> — it provides the analytical engine. While reporting and OLAP tell BI users <i>"what happened"</i>, data mining digs deeper to reveal <i>"why it happened"</i> and <i>"what is likely to happen"</i> by discovering hidden patterns, trends and predictions. Thus data mining powers the <b>predictive and advanced-analytics layer</b> of a BI system.</p>`);
+
+/* the visual library + formula sheet are appended as special sections */
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+const groupMeta={
+  gA:{n:'A',t:'Group A — Short Answers',m:'24 questions · 2 marks each',
+      intro:'Crisp, definition-style answers. Aim for 3–4 sentences each in the exam.'},
+  gB:{n:'B',t:'Group B — Mid-length Answers',m:'18 questions · 5 marks each',
+      intro:'Each answer pairs a clear explanation with a diagram or worked example where useful.'},
+  gC:{n:'C',t:'Group C — Long Answers',m:'12 questions · 10 marks each',
+      intro:'Mostly multi-part numericals — every problem is fully worked, step by step.'}
+};
+const numericIds=new Set(['B11','B13','C1','C2','C3','C5','C6','C7','C10','C11','C12']);
+
+const content=document.getElementById('content');
+let html='';
+['gA','gB','gC'].forEach(g=>{
+  const gm=groupMeta[g];
+  html+=`<section id="${g}" class="grp" data-grp="${g}">
+    <div class="sec-head"><span class="n">${gm.n}</span><span class="t">${gm.t}</span>
+    <span class="meta">${gm.m}</span></div>
+    <p class="sec-intro">${gm.intro}</p>`;
+  QB.filter(x=>x.group===g).forEach(x=>{
+    const isNum=numericIds.has(x.num);
+    html+=`<article class="qcard" data-grp="${g}" data-num="${x.num}"
+      data-numeric="${isNum}" data-search="${(x.question+' '+x.tags+' '+x.num).toLowerCase()}">
+      <div class="qhead">
+        <span class="qnum">${x.num}</span>
+        <span class="qtext">${x.question}</span>
+        <span class="qmarks">${x.marks} mk</span>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m9 18 6-6-6-6"/></svg>
+      </div>
+      <div class="qbody">
+        ${isNum?'<span class="tag">★ Numerical — worked solution</span>':''}
+        ${x.answer}
+        <div class="mark-row"><label><input type="checkbox" class="studyChk" data-id="${x.num}"> Mark as revised</label></div>
+      </div>
+    </article>`;
+  });
+  html+=`</section>`;
+});
+
+/* Visual library */
+html+=`<section id="vis" class="grp" data-grp="vis">
+  <div class="sec-head"><span class="n">◆</span><span class="t">Visual Library</span>
+  <span class="meta">Diagrams to redraw in the exam</span></div>
+  <p class="sec-intro">Quick reference for the diagrams examiners expect — practice sketching these freehand.</p>
+  <div class="vis-grid">
+  ${[
+    ['KDD Process','The 7-stage knowledge-discovery pipeline.',D.kdd],
+    ['Data Warehouse Architecture','Three-tier: sources → ETL → warehouse → OLAP tools.',D.dwarch],
+    ['Star Schema','Central fact table with denormalized dimensions.',D.star],
+    ['Snowflake Schema','Star schema with normalized dimension sub-tables.',D.snow],
+    ['ETL / Extraction Flow','Extract → staging → transform → load.',D.etl],
+    ['Decision Tree','Internal nodes test attributes, leaves give classes.',D.dtree],
+    ['Confusion Matrix','TP/FP/FN/TN layout for classifier evaluation.',D.confusion],
+    ['SVM Hyperplane','Maximum-margin separation with support vectors.',D.svm],
+    ['Linear Regression','Best-fit line — slope and intercept.',D.regression],
+    ['K-Means Clustering','Centroid-based partitioning into clusters.',D.kmeans],
+    ['FP-Tree','Frequent-pattern tree for Group-C Q6.',D.fptree],
+  ].map(v=>`<div class="vis-card"><h4>${v[0]}</h4><div class="vd">${v[1]}</div>${v[2]}</div>`).join('')}
+  </div>
+</section>`;
+
+/* Formula sheet */
+html+=`<section id="fx" class="grp" data-grp="fx">
+  <div class="sec-head"><span class="n">∑</span><span class="t">Formula Sheet</span>
+  <span class="meta">Last-minute glance</span></div>
+  <p class="sec-intro">Every formula used across the paper, collected in one place.</p>
+  <div class="vis-grid">
+  <div class="vis-card"><h4>Association Rules</h4>
+    <div class="fml">Support(X) = count(X) / N
+Support(X→Y) = count(X∪Y) / N
+Confidence(X→Y) = Support(X∪Y) / Support(X)
+Lift(X→Y) = Confidence(X→Y) / Support(Y)</div></div>
+  <div class="vis-card"><h4>Classification Metrics</h4>
+    <div class="fml">Accuracy  = (TP+TN)/(TP+TN+FP+FN)
+Precision = TP/(TP+FP)
+Recall    = TP/(TP+FN)
+F1-Score  = 2·P·R/(P+R)</div></div>
+  <div class="vis-card"><h4>Naïve Bayes</h4>
+    <div class="fml">P(C|X) = P(X|C)·P(C) / P(X)
+Predict: argmaxᴄ  P(C)·Π P(xᵢ|C)</div></div>
+  <div class="vis-card"><h4>Distance &amp; Clustering</h4>
+    <div class="fml">Euclidean: d = √Σ(xᵢ−yᵢ)²
+Manhattan: d = Σ|xᵢ−yᵢ|
+Centroid = mean of all points in cluster
+Gini(D) = 1 − Σ(pᵢ)²
+Entropy(D) = −Σ pᵢ·log₂(pᵢ)</div></div>
+  <div class="vis-card"><h4>Normalization</h4>
+    <div class="fml">Min-Max: v′ = (v−min)/(max−min)·(nmax−nmin)+nmin
+Z-Score: v′ = (v−μ)/σ
+Decimal scaling: v′ = v / 10ʲ</div></div>
+  <div class="vis-card"><h4>Linear Regression</h4>
+    <div class="fml">Y = a + bX
+b = (nΣXY − ΣXΣY) / (nΣX² − (ΣX)²)
+a = (ΣY − bΣX) / n</div></div>
+  </div>
+</section>`;
+
+content.innerHTML=html;
+
+/* =========================================================
+   INTERACTIVITY
+   ========================================================= */
+const cards=[...document.querySelectorAll('.qcard')];
+const chks=[...document.querySelectorAll('.studyChk')];
+const studied={};
+
+/* expand/collapse on header click */
+document.querySelectorAll('.qhead').forEach(h=>{
+  h.addEventListener('click',()=>h.parentElement.classList.toggle('open'));
+});
+
+/* checkbox progress */
+function updateProgress(){
+  const done=Object.values(studied).filter(Boolean).length;
+  const total=chks.length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('pctTxt').textContent=pct+'%';
+  document.getElementById('barFill').style.width=pct+'%';
+  document.getElementById('cntTxt').textContent=done+' / '+total+' studied';
+}
+chks.forEach(c=>{
+  c.addEventListener('click',e=>e.stopPropagation());
+  c.addEventListener('change',()=>{
+    studied[c.dataset.id]=c.checked;
+    c.closest('.qcard').classList.toggle('studied',c.checked);
+    updateProgress();
+  });
+});
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  chks.forEach(c=>{c.checked=false;studied[c.dataset.id]=false;
+    c.closest('.qcard').classList.remove('studied');});
+  updateProgress();
+});
+updateProgress();
+
+/* expand / collapse all */
+document.getElementById('expandAll').addEventListener('click',()=>
+  cards.forEach(c=>!c.classList.contains('hidden')&&c.classList.add('open')));
+document.getElementById('collapseAll').addEventListener('click',()=>
+  cards.forEach(c=>c.classList.remove('open')));
+
+/* tab filter */
+let activeTab='all';
+const grps=[...document.querySelectorAll('.grp')];
+function applyFilter(){
+  const term=document.getElementById('searchBox').value.trim().toLowerCase();
+  let visible=0;
+  cards.forEach(c=>{
+    const g=c.dataset.grp;
+    let show=true;
+    if(activeTab==='gA'||activeTab==='gB'||activeTab==='gC') show=(g===activeTab);
+    else if(activeTab==='numeric') show=(c.dataset.numeric==='true');
+    if(show&&term) show=c.dataset.search.includes(term);
+    c.classList.toggle('hidden',!show);
+    if(show)visible++;
+  });
+  /* show/hide section wrappers & special sections */
+  grps.forEach(s=>{
+    const g=s.dataset.grp;
+    if(g==='vis'||g==='fx'){
+      s.classList.toggle('hidden', activeTab!=='all' || !!term);
+    }else{
+      const anyVisible=[...s.querySelectorAll('.qcard')].some(c=>!c.classList.contains('hidden'));
+      s.classList.toggle('hidden',!anyVisible);
+    }
+  });
+  document.getElementById('noResult').classList.toggle('hidden',visible>0);
+}
+document.getElementById('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('.tab'); if(!b)return;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  b.classList.add('on'); activeTab=b.dataset.f; applyFilter();
+});
+document.getElementById('searchBox').addEventListener('input',()=>{
+  const term=document.getElementById('searchBox').value.trim().toLowerCase();
+  applyFilter();
+  if(term) cards.forEach(c=>!c.classList.contains('hidden')&&c.classList.add('open'));
+});
+
+/* scroll-spy nav */
+const navlinks=[...document.querySelectorAll('.navlink')];
+navlinks.forEach(a=>a.addEventListener('click',()=>{
+  navlinks.forEach(n=>n.classList.remove('on'));a.classList.add('on');
+}));
+const spy=new IntersectionObserver(es=>{
+  es.forEach(en=>{
+    if(en.isIntersecting){
+      navlinks.forEach(n=>n.classList.toggle('on',n.dataset.sec===en.target.id));
+    }
+  });
+},{rootMargin:'-30% 0px -60% 0px'});
+grps.forEach(s=>spy.observe(s));
+
+/* theme toggle */
+const tb=document.getElementById('themeBtn');
+tb.addEventListener('click',()=>{
+  const dark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',dark?'light':'dark');
+  tb.querySelector('span').textContent=dark?'Dark':'Light';
+  tb.firstChild.textContent=dark?'◐ ':'◑ ';
+});
+</script>
+</body>
+</html>
